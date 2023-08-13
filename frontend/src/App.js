@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { Members } from './Components/Members';
 
 function App() {
 
 	const [data, setData] = useState([{}])
+	const url ="http://localhost:5000"
 
 	useEffect(() => {
-		fetch("http://localhost:5000").then(
-			res => res.json()
-		).then(
+		fetch(url).then(response => {
+			// eslint-disable-next-line eqeqeq
+			if(response.status == 200){
+				return response.json()
+			}
+		}).then(
 			data => {
 				setData(data)
 				console.log(data)
@@ -19,15 +24,7 @@ function App() {
 
 	return (
 		<div>
-
-			{(typeof data.members === 'undefined') ? (
-				<p>Loading...</p>
-			) : (
-				data.members.map((member, i) => (
-					<p key={i}>{member}</p>
-				))
-			)}
-
+			<Members data={data}></Members>
 		</div>
 	)
 
