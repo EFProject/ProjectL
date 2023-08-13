@@ -12,7 +12,7 @@ app.config.from_object('config')
 db.init_app(app)
 app.register_blueprint(event_bp, url_prefix='/events')
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def home():
     return {"members": ["Member1", "Member2", "Member3"]}
 
