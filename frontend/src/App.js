@@ -4,7 +4,7 @@ import { Members } from './Components/Members';
 function App() {
 
 	const [data, setData] = useState([{}])
-	const url ="http://localhost:5000"
+	const url ="http://localhost:5000/events"
 
 	useEffect(() => {
 		fetch(url).then(response => {
