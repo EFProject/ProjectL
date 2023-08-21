@@ -10,6 +10,9 @@ CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 
+#connect to local db
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:{pass}@localhost:5432/projectL'
+
 db.init_app(app)
 app.register_blueprint(event_bp, url_prefix='/events')
 

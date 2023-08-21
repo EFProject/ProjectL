@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Members } from './Components/Members';
+import NewsList from './Components/NewsList';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
-	const [data, setData] = useState([{}])
+	const [data, setData] = useState()
 	const url ="http://localhost:5000/events"
 
 	useEffect(() => {
@@ -24,7 +25,8 @@ function App() {
 
 	return (
 		<div>
-			<Members data={data}></Members>
+			{console.log(data)}
+			{data ? <NewsList data={data}/> : <p>No data</p> }
 		</div>
 	)
 
