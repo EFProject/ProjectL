@@ -13,8 +13,8 @@ def get_events():
         for event in events:
             event_list.append(event.serialize)
         
-        if event_list:
-            return {'events': event_list}
+        #if event_list:
+        return {'events': event_list}
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "No event found"}), 404
