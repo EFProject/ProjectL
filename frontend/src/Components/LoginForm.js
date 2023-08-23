@@ -2,19 +2,25 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-function SignupForm() {
+function LoginForm() {
   const [formData, setFormData] = useState({
     email: '',
-    name: '',
     password: '',
+    remember: false,
   });
 
   const [errors, setErrors] = useState({});
-  const url = 'http://localhost:5000/users/signup';
+  const url = 'http://localhost:5000/users/login';
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (type === 'checkbox') {
+        setFormData({ ...formData, [name]: checked });
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
   };
 
   const handleSubmit = async (e) => {
@@ -24,6 +30,7 @@ function SignupForm() {
     setErrors({});
   
     try {
+      // Send the form data to the server
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -40,17 +47,17 @@ function SignupForm() {
       }
   
       // If the response is successful, display a success alert
-      window.alert('Signup successful!');
+      window.alert('Welcome back Strunz!');
   
       // Reset the form fields
       setFormData({
         email: '',
-        name: '',
         password: '',
+        remember: false,
       });
     } catch (error) {
       // Handle errors (e.g., network issues, server errors)
-      console.error('Signup error:', error.message);
+      console.error('Login error:', error.message);
   
       // Set error messages based on the specific error received
       setErrors({
@@ -58,10 +65,9 @@ function SignupForm() {
       });
   
       // Display an error alert
-      window.alert('Something went wrong. Please try again later.');
+      window.alert('Login failed. Please try again later.');
     }
   };
-  
   
 
   return (
@@ -81,21 +87,6 @@ function SignupForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="name">
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Enter name"
-          isInvalid={!!errors.name}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.name}
-        </Form.Control.Feedback>
-      </Form.Group>
-
       <Form.Group controlId="password">
         <Form.Label>Password</Form.Label>
         <Form.Control
@@ -111,11 +102,21 @@ function SignupForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
+      <Form.Group controlId="remember">
+        <Form.Check
+          type="checkbox"
+          name="remember"
+          label="Remember Me"
+          checked={formData.remember}
+          onChange={handleChange}
+        />
+      </Form.Group>
+
       <Button variant="primary" type="submit">
-        Sign Up
+        Log In
       </Button>
     </Form>
   );
 }
 
-export default SignupForm;
+export default LoginForm;

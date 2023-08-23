@@ -7,7 +7,7 @@ from flask_login import login_user, current_user, logout_user
 
 def login():
     if current_user.is_authenticated:
-        return jsonify(message='Sei autenticato'), 200
+        return jsonify(message='You are authenticated!'), 404
     # login code goes here
     email = request.json['email']
     password = request.json['password']
@@ -17,11 +17,11 @@ def login():
     # check if the user actually exists
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
     if not user or not check_password_hash(user.password, password):
-        return 'Wrong data!' # if the user doesn't exist or password is wrong, reload the page
+        return jsonify({"message": "Wrong email or password, scriv buon mmerda!"}), 404 # if the user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
-    return 'Welcome strunz! (30 grazie :))'
+    return jsonify({"message": "Welcome back Strunz!"}), 200
 
 def signup():
     email = request.json['email']
@@ -31,7 +31,7 @@ def signup():
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
-        return 'Already exist!'
+        return jsonify({"message": "Already exist!"}), 404
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
@@ -40,7 +40,7 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
 
-    return 'Welcome!'
+    return jsonify({"message": "Signup successfully!"}), 200
 
 def logout():
     logout_user()
