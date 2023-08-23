@@ -1,17 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
-import sys, os
-sys.path.append(os.path.abspath('..'))
-from backend import login_manager 
-
 
 from models.event import db
-
-@login_manager.user_loader
-def load_user(user_id):
-    # since the user_id is just the primary key of our user table, use it in the query for the user
-    return User.query.get(int(user_id))
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'

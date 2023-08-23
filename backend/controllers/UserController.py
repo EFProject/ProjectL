@@ -4,6 +4,7 @@ from models.user import User
 from models.event import db
 from flask_login import login_user, current_user, logout_user
 
+
 def login():
     if current_user.is_authenticated:
         return jsonify(message='Sei autenticato'), 200
