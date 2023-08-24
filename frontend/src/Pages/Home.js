@@ -5,9 +5,10 @@ import NewsList from '../Components/NewsList';
 function Home() {
 
     const [data, setData] = useState()
-	const url ="http://localhost:5000/events"
+	const url ="http://localhost:5000/news"
 
 	useEffect(() => {
+
 		fetch(url).then(response => {
 			// eslint-disable-next-line eqeqeq
 			if(response.status == 200){

@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
 
-from models.event import db
+from models.news import db
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'

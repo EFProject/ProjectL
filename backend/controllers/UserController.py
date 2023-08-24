@@ -1,8 +1,9 @@
-from flask import request, jsonify
+from flask import request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
-from models.event import db
+from models.news import db
 from flask_login import login_user, current_user, logout_user
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
 
 def login():
@@ -21,7 +22,12 @@ def login():
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
-    return jsonify({"message": "Welcome back Strunz!"}), 200
+
+    session["user_id"] = user.id
+
+    return jsonify({"message": "Welcome back Strunz!",
+                    "id": user.id,
+                    "email": user.email}), 200
 
 def signup():
     email = request.json['email']
@@ -31,7 +37,7 @@ def signup():
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
-        return jsonify({"message": "Already exist!"}), 404
+        return jsonify({"message": "Email already exist!"}), 404
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
@@ -40,10 +46,12 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
 
+    session["user_id"] = new_user.id
+
     return jsonify({"message": "Signup successfully!"}), 200
 
 def logout():
-    logout_user()
+    session.pop("user_id", None)
     return 'Addio pezzo di merda :('
 
 def get_users():
@@ -100,3 +108,13 @@ def delete_user(user_id):
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
+    
+
+#create a token
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if email != "test" or password != "test":
+        return jsonify({"msg": "Bad username or pass"}), 401
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)

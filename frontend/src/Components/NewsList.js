@@ -2,19 +2,19 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const NewsList = ({ data }) => {
-  const { events } = data;
+  const { news } = data;
 
   return (
     <Container className="mt-4">
       <h1 className="mb-4">Latest News</h1>
-      {!events ? (
+      {!news ? (
         <p>Loading news...</p>
       ) : (
         <Row>
-          {events.map((item) => (
+          {news.map((item) => (
             <Col md={4} key={item.id}>
               <Card className="mb-4">
-                <Card.Img src={item.imageUrl} alt={item.title} />
+                <Card.Img src={item.imageUrl}/>
                 <Card.Body>
                   <Card.Title>{item.title}</Card.Title>
                   <Card.Text>{item.description}</Card.Text>

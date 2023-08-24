@@ -3,33 +3,35 @@ from flask_cors import CORS
 from os import environ
 import os
 from dotenv import load_dotenv, find_dotenv
+from config import ApplicationConfig
 
-from models.event import db
-from routes.event_bp import event_bp
+from models.news import db
+from routes.news_bp import news_bp
 
 from routes.user_bp import user_bp
 
 from flask_login import LoginManager
 from models.user import User
 
+from flask_jwt_extended import JWTManager
+
+
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 load_dotenv(find_dotenv())
 
 app.config['basedir'] = os.path.abspath(os.path.dirname(__file__))
 
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
-app.config['SECRET_KEY'] = environ.get("SECRET_KEY")
-print(environ.get("SECRET_KEY"))
-#connect to local db
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:{pass}@localhost:5432/projectL'
+app.config.from_object(ApplicationConfig)
 
 db.init_app(app)
-app.register_blueprint(event_bp, url_prefix='/events')
+app.register_blueprint(news_bp, url_prefix='/news')
 app.register_blueprint(user_bp, url_prefix='/users')
+
+jwt = JWTManager(app)
 
 @app.route("/", methods=['GET'])
 def home():

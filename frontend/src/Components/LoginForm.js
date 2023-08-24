@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -48,6 +50,7 @@ function LoginForm() {
   
       // If the response is successful, display a success alert
       window.alert('Welcome back Strunz!');
+      navigate('/');
   
       // Reset the form fields
       setFormData({

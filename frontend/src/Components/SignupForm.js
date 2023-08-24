@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 
 function SignupForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -41,6 +43,8 @@ function SignupForm() {
   
       // If the response is successful, display a success alert
       window.alert('Signup successful!');
+
+      navigate('/login');
   
       // Reset the form fields
       setFormData({
