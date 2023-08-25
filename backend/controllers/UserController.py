@@ -9,7 +9,7 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 def login():
     if current_user.is_authenticated:
         return jsonify(message='You are authenticated!'), 404
-    # login code goes here
+    
     email = request.json['email']
     password = request.json['password']
     remember = True if request.json['remember'] else False
@@ -22,12 +22,13 @@ def login():
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
-
-    session["user_id"] = user.id
+    #create a token
+    access_token = create_access_token(identity=email)
 
     return jsonify({"message": "Welcome back Strunz!",
                     "id": user.id,
-                    "email": user.email}), 200
+                    "email": user.email,
+                    "access_token": access_token}), 200
 
 def signup():
     email = request.json['email']
@@ -108,13 +109,3 @@ def delete_user(user_id):
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
-    
-
-#create a token
-def create_token():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    if email != "test" or password != "test":
-        return jsonify({"msg": "Bad username or pass"}), 401
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)

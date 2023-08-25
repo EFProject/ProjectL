@@ -40,13 +40,16 @@ function LoginForm() {
         },
         body: JSON.stringify(formData),
       });
-  
-      if (!response.ok) {
-        // Handle HTTP errors (e.g., 400 Bad Request, 500 Internal Server Error)
-        // You can parse the response and set appropriate error messages
-        const data = await response.json();
-        throw new Error(data.error || 'Something went wrong');
+
+      if (response.ok) {
+        const responseData = await response.json(); // Parse JSON response
+        const accessToken = responseData.access_token;
+        sessionStorage.setItem("token", accessToken);
+      } else {
+        // Handle error
+        console.error('Failed to fetch data from the server');
       }
+
   
       // If the response is successful, display a success alert
       window.alert('Welcome back Strunz!');

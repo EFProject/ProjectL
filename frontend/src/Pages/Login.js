@@ -4,11 +4,13 @@ import LoginForm from '../Components/LoginForm';
 
 
 function Login() {
+  const token = sessionStorage.getItem("token")
+
   return (
     <div>
       <NavBar></NavBar>
       <h2>Log In</h2>
-      <LoginForm />
+      {(token && token!=="" && token!=="undefined" && token!==undefined ? "You are logged in with token" + token :  <LoginForm />)}
     </div>
   );
 }

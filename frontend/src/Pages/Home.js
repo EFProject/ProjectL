@@ -26,10 +26,8 @@ function Home() {
 
   return (
     <div>
-
 		<NavBar></NavBar>
 		{data ? <NewsList data={data}/> : <p>No data</p> }
-			
 	</div>
   );
 
