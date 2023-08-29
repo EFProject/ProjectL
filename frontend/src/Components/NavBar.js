@@ -1,25 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Context } from '../Store/appContext';
 
 function NavBar() {
+
+  const {store,actions} = useContext(Context);
+  const navigate = useNavigate();
+
+ function handleLogout(){
+    actions.logout();
+    navigate('/login');
+ }
+  
   return (
     <Navbar className="bg-body-tertiary" expand="lg">
       <Container>
-        <Navbar.Brand as={NavLink} to="/" activeClassName="active-link">
+        <Navbar.Brand as={NavLink} to="/" className="active-link">
           Home
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link as={NavLink} to="/login" activeClassName="active-link">
+          { !store.token ? 
+            <>
+              <Nav.Link as={NavLink} to="/login" className="active-link">
               Login
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/signup" activeClassName="active-link">
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/signup" className="active-link">
               Signup
-            </Nav.Link>
+              </Nav.Link>
+            </>
+            : 
+            <Nav.Link onClick={handleLogout} className="active-link">
+            Logout
+          </Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>

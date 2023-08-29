@@ -2,13 +2,11 @@ from flask import request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
 from models.news import db
-from flask_login import login_user, current_user, logout_user
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from flask_login import login_user
+from flask_jwt_extended import create_access_token
 
 
 def login():
-    if current_user.is_authenticated:
-        return jsonify(message='You are authenticated!'), 404
     
     email = request.json['email']
     password = request.json['password']

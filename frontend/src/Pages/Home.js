@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import NavBar from '../Components/NavBar';
 import NewsList from '../Components/NewsList';
 
 function Home() {
@@ -26,7 +25,6 @@ function Home() {
 
   return (
     <div>
-		<NavBar></NavBar>
 		{data ? <NewsList data={data}/> : <p>No data</p> }
 	</div>
   );
