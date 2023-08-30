@@ -1,5 +1,6 @@
 version: '3.9'
 services:
+
   backend: 
     build: ./backend
     ports:
@@ -10,6 +11,7 @@ services:
       - DB_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
     depends_on:
       - postgres
+
   postgres:
     image: postgres:15
     ports:
@@ -20,6 +22,7 @@ services:
       - POSTGRES_DB=postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+
   frontend: 
     build: ./frontend 
     ports:
@@ -30,6 +33,17 @@ services:
       - WATCHPACK_POLLING=true
     depends_on:
       - backend
+
+  authentication: 
+    build: ./authentication
+    ports:
+    - "5001:5001" 
+    volumes:
+    - ./authentication:/authentication
+    environment:
+      - DB_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    depends_on:
+      - postgres
 
 volumes:
  pgdata: {}

@@ -1,9 +1,9 @@
 from flask import request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
-from models.news import db
+from models.user import db
 from flask_login import login_user
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity
 
 
 def login():
@@ -27,6 +27,14 @@ def login():
                     "id": user.id,
                     "email": user.email,
                     "access_token": access_token}), 200
+
+@jwt_required()
+def checkToken():
+
+    email = get_jwt_identity()
+    
+    return jsonify({"message": "Allow" + email}), 200
+    
 
 def signup():
     email = request.json['email']

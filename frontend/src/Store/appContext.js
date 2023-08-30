@@ -21,13 +21,10 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 
-			if(!state.actions.checkToken())
-			{
-				state.store.token= "";
-				sessionStorage.removeItem("token");
-			}else{
-				state.actions.syncTokenFromSessionStorage();
-			}
+			console.log(process.env.REACT_APP_AUTH)
+
+			state.actions.checkToken();
+			state.actions.syncTokenFromSessionStorage();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, []);

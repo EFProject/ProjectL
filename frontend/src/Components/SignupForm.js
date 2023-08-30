@@ -12,7 +12,7 @@ function SignupForm() {
   });
 
   const [errors, setErrors] = useState({});
-  const url = 'http://localhost:5000/users/signup';
+  const url = 'http://localhost:5001/users/signup';
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -1,3 +1,5 @@
+const BACKEND_URL = "http://localhost:5001"
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -7,7 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// Use getActions to call a function within a fuction
 			
 			login: async (formData, setErrors) => {
-				const url = 'http://localhost:5000/users/login';
+				const url = BACKEND_URL + '/users/login';
 				try {
 					// Send the form data to the server
 					const response = await fetch(url, {
@@ -43,16 +45,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  }
 			},
 
+			checkToken: async () => {
+
+				const token = sessionStorage.getItem("token");
+
+				if(token){
+					const url = BACKEND_URL + '/users/checkToken';
+
+					try {
+						const response = await fetch(url, {
+						  headers: {
+							Authorization: "Bearer " + token,
+						  },
+						});
+					  
+						if (!response.ok) {
+						  console.log("Error Status Code:", response.status);
+						  const errorData = await response.json();
+						  console.log("Error Data:", errorData);
+						  sessionStorage.removeItem("token");
+						  setStore({token: null})
+						}
+
+					  } catch (error) {
+						console.error("Error:", error);
+					  }					  
+
+				}
+			},
+
 			logout: ()=>{
 				sessionStorage.removeItem("token");
 				setStore({token: null})
-			},
-
-			checkToken: ()=>{
-				if(!getState.store.token) return false
-				const sessionToken = sessionStorage.getItem("token");
-				console.log(sessionToken, getStore.token)
-				return (sessionToken === getStore.token)
 			},
 
 			syncTokenFromSessionStorage: ()=>{
