@@ -3,14 +3,14 @@ import NewsList from '../Components/NewsList';
 
 function Home() {
 
-    const [data, setData] = useState()
-	const url ="http://localhost:5000/news"
+	const [data, setData] = useState()
+	const url = "http://localhost:5000/news/"
 
 	useEffect(() => {
 
 		fetch(url).then(response => {
 			// eslint-disable-next-line eqeqeq
-			if(response.status == 200){
+			if (response.status == 200) {
 				return response.json()
 			}
 		}).then(
@@ -23,11 +23,11 @@ function Home() {
 		});
 	}, [])
 
-  return (
-    <div>
-		{data ? <NewsList data={data}/> : <p>No data</p> }
-	</div>
-  );
+	return (
+		<div>
+			{data ? <NewsList data={data} /> : <p>No data</p>}
+		</div>
+	);
 
 }
 

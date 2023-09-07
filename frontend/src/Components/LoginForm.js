@@ -6,10 +6,10 @@ import { Context } from '../Store/appContext';
 
 function LoginForm() {
 
-  const {actions} = useContext(Context);
+  const { actions } = useContext(Context);
 
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -23,33 +23,30 @@ function LoginForm() {
     setFormData({ ...formData, [name]: value });
 
     if (type === 'checkbox') {
-        setFormData({ ...formData, [name]: checked });
-      } else {
-        setFormData({ ...formData, [name]: value });
-      }
+      setFormData({ ...formData, [name]: checked });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Reset any previous errors
     setErrors({});
 
-    actions.login(formData, setErrors).then(()=>{
-      // If the response is successful, display a success alert
-      window.alert('Welcome back Strunz!');
+    actions.login(formData, setErrors).then(() => {
       navigate('/');
-    
-      // Reset the form fields
       setFormData({
         email: '',
         password: '',
         remember: false,
       });
-    })
-    
+    }
+    ).catch((error) => {
+      console.error('Error:', error);
+    });
   };
-  
 
   return (
     <Form onSubmit={handleSubmit}>

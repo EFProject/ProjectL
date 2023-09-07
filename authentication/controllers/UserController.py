@@ -3,11 +3,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.user import User
 from models.user import db
 from flask_login import login_user
-from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 
 def login():
-    
+
     email = request.json['email']
     password = request.json['password']
     remember = True if request.json['remember'] else False
@@ -16,38 +16,42 @@ def login():
     # check if the user actually exists
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
     if not user or not check_password_hash(user.password, password):
-        return jsonify({"message": "Wrong email or password, scriv buon mmerda!"}), 404 # if the user doesn't exist or password is wrong, reload the page
+        # if the user doesn't exist or password is wrong, reload the page
+        return jsonify({"message": "Wrong email or password, scriv buon mmerda!"}), 404
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
-    #create a token
+    # create a token
     access_token = create_access_token(identity=email)
 
-    return jsonify({"message": "Welcome back Strunz!",
+    return jsonify({"message": "Welcome back" + user.email + "!",
                     "id": user.id,
                     "email": user.email,
                     "access_token": access_token}), 200
+
 
 @jwt_required()
 def checkToken():
 
     email = get_jwt_identity()
-    
+
     return jsonify({"message": "Allow" + email}), 200
-    
+
 
 def signup():
     email = request.json['email']
     name = request.json['name']
     password = request.json['password']
 
-    user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+    # if this returns a user, then the email already exists in database
+    user = User.query.filter_by(email=email).first()
 
-    if user: # if a user is found, we want to redirect back to signup page so user can try again
+    if user:  # if a user is found, we want to redirect back to signup page so user can try again
         return jsonify({"message": "Email already exist!"}), 404
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+    new_user = User(email=email, name=name,
+                    password=generate_password_hash(password, method='sha256'))
 
     # add the new user to the database
     db.session.add(new_user)
@@ -57,9 +61,11 @@ def signup():
 
     return jsonify({"message": "Signup successfully!"}), 200
 
+
 def logout():
     session.pop("user_id", None)
-    return 'Addio pezzo di merda :('
+    return 'Bye :('
+
 
 def get_users():
     try:
@@ -67,12 +73,13 @@ def get_users():
         user_list = []
         for user in users:
             user_list.append(user.serialize)
-        
-        #if user_list:
+
+        # if user_list:
         return {'users': user_list}
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "No user found"}), 404
+
 
 def get_user(user_id):
     try:
@@ -83,29 +90,33 @@ def get_user(user_id):
         print("Exception:", e)  # Print the specific exception for debugging
         return 'No User ' + str(user_id) + ' exists', 404
 
+
 def update_user(user_id):
     new_email = request.json['email']
     new_name = request.json['name']
     new_password = request.json['password']
     try:
-        user = User.query.filter_by(id=user_id).one()  # Retrieve the user instance using .one()
+        # Retrieve the user instance using .one()
+        user = User.query.filter_by(id=user_id).one()
         if not user:
             return jsonify({"message": "user not found"}), 404
-        
+
         if User.query.filter_by(email=new_email).first():
             return jsonify({"message": "mail already exist!"}), 404
-        
+
         user.email = new_email
         user.name = new_name
         user.password = generate_password_hash(new_password, method='sha256')
-        
+
         db.session.commit()
         return jsonify({"message": "user updated successfully"})
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
 
-#delete an user
+# delete an user
+
+
 def delete_user(user_id):
     try:
         user = User.query.filter_by(id=user_id).one()

@@ -12,9 +12,9 @@ const NewsList = ({ data }) => {
       ) : (
         <Row>
           {news.map((item) => (
-            <Col md={4} key={item.id}>
+            <Col xs={12} sm={12} md={6} lg={6} key={item.id}>
               <Card className="mb-4">
-                <Card.Img src={item.imageUrl}/>
+                <Card.Img src={item.imageUrl} />
                 <Card.Body>
                   <Card.Title>{item.title}</Card.Title>
                   <Card.Text>{item.description}</Card.Text>

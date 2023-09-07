@@ -1,0 +1,15 @@
+
+.active-link {
+    color: #fff; 
+    border-bottom: 2px solid #fff; 
+  }
+
+.selected {
+    color: black;
+    border-bottom: 2px solid black; 
+}
+  
+  .navbar-custom {
+    background-color: #007bff; 
+  }
+  
