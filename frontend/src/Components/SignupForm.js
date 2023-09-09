@@ -59,7 +59,7 @@ function SignupForm() {
       setErrors({
         ...errors,
         password:
-          'Password must be at least 8 characters with an uppercase letter, a number, and a special symbol.',
+          'Password must be at least 8 and maximun 30 characters with an uppercase letter, a number, and a special symbol.',
       });
       return false;
     }
