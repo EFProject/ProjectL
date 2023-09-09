@@ -1,6 +1,6 @@
 FROM python:3
 
-WORKDIR /backend
+WORKDIR /news
 
 ENV FLASK_APP=server.py
 

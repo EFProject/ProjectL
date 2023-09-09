@@ -1,12 +1,12 @@
 version: '3.9'
 services:
 
-  backend: 
-    build: ./backend
+  news: 
+    build: ./news
     ports:
     - "5000:5000" 
     volumes:
-    - ./backend:/backend
+    - ./news:/news
     environment:
       - DB_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
     depends_on:
@@ -32,7 +32,7 @@ services:
     environment:
       - WATCHPACK_POLLING=true
     depends_on:
-      - backend
+      - news
 
   authentication: 
     build: ./authentication

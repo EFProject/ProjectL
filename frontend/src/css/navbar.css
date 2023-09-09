@@ -82,3 +82,7 @@ body {
   height: auto;
   margin-right: 10px; 
 }
+
+.card-img {
+  height: 400px; /* Adjust the height as needed */
+}

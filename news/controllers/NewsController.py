@@ -1,31 +1,32 @@
 from datetime import datetime
-
+import requests
 from flask import jsonify, request
-
 from models.news import News, db
 
 
-#get all news
+# get all news
 def get_allNews():
     try:
-        allNews = News.query.order_by(News.id.asc()).all()
-        news_list = []
-        for news in allNews:
-            news_list.append(news.serialize)
-        
-        #if news_list:
-        return {'news': news_list}
-    except Exception as e:
-        print("Exception:", e)  # Print the specific exception for debugging
-        return jsonify({"message": "No news found"}), 404
 
-#create an news
+        url = ('https://newsapi.org/v2/top-headlines?country=us&category=sports&apiKey=6878f1cf47344c10b9c1da2d6e622d2b')
+
+        response = requests.get(url)
+        allNews = response.json()
+
+        return allNews
+    except Exception as e:
+        print("Exception:", e)
+        return jsonify({"Error": e}), 404
+
+# create an news
+
+
 def create_news():
     try:
         title = request.json['title']
         description = request.json['description']
         imageUrl = request.json['imageUrl']
-        news = News(title,description,imageUrl)
+        news = News(title, description, imageUrl)
         db.session.add(news)
         db.session.commit()
         return news.serialize
@@ -33,7 +34,9 @@ def create_news():
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
 
-#get single news
+# get single news
+
+
 def get_news(news_id):
     try:
         news = News.query.filter_by(id=news_id).one()
@@ -44,13 +47,14 @@ def get_news(news_id):
         return 'No News ' + str(news_id) + ' exists', 404
 
 
-#edit an news
+# edit an news
 def update_news(news_id):
     try:
-        news = News.query.filter_by(id=news_id).one()  # Retrieve the news instance using .one()
+        # Retrieve the news instance using .one()
+        news = News.query.filter_by(id=news_id).one()
         if not news:
             return jsonify({"message": "News not found"}), 404
-        
+
         new_title = request.json.get('title')
         new_description = request.json.get('description')
         new_imagineUrl = request.json.get('imageUrl')
@@ -58,14 +62,16 @@ def update_news(news_id):
         news.description = new_description
         news.imagineUrl = new_imagineUrl
         news.created_at = datetime.utcnow()  # Update the created_at field if needed
-        
+
         db.session.commit()
         return jsonify({"message": "News updated successfully"})
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
 
-#delete an news
+# delete an news
+
+
 def delete_news(news_id):
     try:
         news = News.query.filter_by(id=news_id).one()
