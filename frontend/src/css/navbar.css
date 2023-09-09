@@ -5,11 +5,61 @@
   }
 
 .selected {
-    color: black;
-    border-bottom: 2px solid black; 
+    color: #ff0046 !important;
+    border-bottom: 2px solid #ff0046; 
+}
+
+.active-link:hover {
+  color: #ff0046 !important;
+  border-bottom: 2px solid #ff0046;
 }
   
-  .navbar-custom {
-    background-color: #007bff; 
-  }
-  
+.navbar-custom {
+  background-color: #011f29; 
+}
+
+.hamburger-menu {
+  background-color: white;
+}
+
+body {
+  background-color: #010a0f;
+  color: white
+}
+
+.form-button {
+  background-color: #ff0046;
+  border:solid 2px #ff0046;
+}
+
+
+.form-button:active {
+  background-color: #010a0f !important;
+  border:solid 2px #ff0046 !important;
+}
+
+
+.form-button:hover {
+  background-color: #010a0f;
+  border:solid 2px #ff0046;
+}
+
+.outline-form-button {
+  background-color: #010a0f;
+  border: solid 2px #ff0046;
+}
+
+.outline-form-button:hover {
+  background-color: #ff0046;
+  border: solid 2px #ff0046;
+}
+
+.outline-form-button:active {
+  background-color: #ff0046 !important;
+  border: solid 2px #ff0046 !important;
+}
+
+.card-news {
+  background-color: #011f29; 
+  color: white
+}

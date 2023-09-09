@@ -139,69 +139,75 @@ function SignupForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="name">
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Enter name"
-          isInvalid={!!errors.name}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.name}
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <Form.Group controlId="password">
-        <Form.Label>Password</Form.Label>
-        <div className="input-group">
+      <div className="mt-2">
+        <Form.Group controlId="name">
+          <Form.Label>Name</Form.Label>
           <Form.Control
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            value={formData.password}
+            type="text"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
-            placeholder="Password"
-            isInvalid={!!errors.password}
+            placeholder="Enter name"
+            isInvalid={!!errors.name}
           />
-          <Button
-            variant="outline-secondary"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? 'Hide' : 'Show'}
-          </Button>
-        </div>
-        {errors.password && (
-          <div className="text-danger">{errors.password}</div>
-        )}
-      </Form.Group>
+          <Form.Control.Feedback type="invalid">
+            {errors.name}
+          </Form.Control.Feedback>
+        </Form.Group>
+      </div>
 
-      <Form.Group controlId="repeatPassword">
-        <Form.Label>Repeat Password</Form.Label>
-        <div className="input-group">
-          <Form.Control
-            type={showPassword ? 'text' : 'password'}
-            name="repeatPassword"
-            value={formData.repeatPassword}
-            onChange={handleChange}
-            placeholder="Repeat Password"
-            isInvalid={!!errors.repeatPassword}
-          />
-          <Button
-            variant="outline-secondary"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? 'Hide' : 'Show'}
-          </Button>
-        </div>
-        {errors.repeatPassword && (
-          <div className="text-danger">{errors.repeatPassword}</div>
-        )}
-      </Form.Group>
+      <div className="mt-2">
+        <Form.Group controlId="password">
+          <Form.Label>Password</Form.Label>
+          <div className="input-group">
+            <Form.Control
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              isInvalid={!!errors.password}
+            />
+            <Button
+              className={showPassword ? 'form-button' : 'outline-form-button'}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </Button>
+          </div>
+          {errors.password && (
+            <div className="text-danger">{errors.password}</div>
+          )}
+        </Form.Group>
+      </div>
+
+      <div className="mt-2">
+        <Form.Group controlId="repeatPassword">
+          <Form.Label>Repeat Password</Form.Label>
+          <div className="input-group">
+            <Form.Control
+              type={showPassword ? 'text' : 'password'}
+              name="repeatPassword"
+              value={formData.repeatPassword}
+              onChange={handleChange}
+              placeholder="Repeat Password"
+              isInvalid={!!errors.repeatPassword}
+            />
+            <Button
+              className={showPassword ? 'form-button' : 'outline-form-button'}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </Button>
+          </div>
+          {errors.repeatPassword && (
+            <div className="text-danger">{errors.repeatPassword}</div>
+          )}
+        </Form.Group>
+      </div>
 
       <div className="mt-3">
-        <Button variant="primary" type="submit">
+        <Button className='form-button' type="submit">
           Sign Up
         </Button>
       </div>

@@ -30,7 +30,7 @@ function App() {
 		<div>
 			<Router>
 				<NavBar />
-				<Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
+				<Container className="d-flex justify-content-center align-items-center app-container" style={{ minHeight: '90vh' }}>
 					<Routes>
 						<Route path="/" element={store.token ? <Home /> : <Login />} />
 						{!store.token ?

@@ -13,13 +13,13 @@ const NewsList = ({ data }) => {
         <Row>
           {news.map((item) => (
             <Col xs={12} sm={12} md={6} lg={6} key={item.id}>
-              <Card className="mb-4">
+              <Card className="mb-4 card-news">
                 <Card.Img src={item.imageUrl} />
                 <Card.Body>
                   <Card.Title>{item.title}</Card.Title>
                   <Card.Text>{item.description}</Card.Text>
                   <Button
-                    variant="primary"
+                    className='form-button'
                     href={item.link}
                     target="_blank"
                     rel="noopener noreferrer"

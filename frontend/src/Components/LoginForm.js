@@ -8,6 +8,7 @@ function LoginForm() {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -82,32 +83,44 @@ function LoginForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="password">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          isInvalid={!!errors.password}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.password}
-        </Form.Control.Feedback>
-      </Form.Group>
+      <div className="mt-2">
+        <Form.Group controlId="password">
+          <Form.Label>Password</Form.Label>
+          <div className="input-group">
+            <Form.Control
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              isInvalid={!!errors.password}
+            />
+            <Button
+              className={showPassword ? 'form-button' : 'outline-form-button'}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </Button>
+          </div>
+          {errors.password && (
+            <div className="text-danger">{errors.password}</div>
+          )}
+        </Form.Group>
+      </div>
 
-      <Form.Group controlId="remember">
-        <Form.Check
-          type="checkbox"
-          name="remember"
-          label="Remember Me"
-          checked={formData.remember}
-          onChange={handleChange}
-        />
-      </Form.Group>
+      <div className="mt-2">
+        <Form.Group controlId="remember">
+          <Form.Check
+            type="checkbox"
+            name="remember"
+            label="Remember Me"
+            checked={formData.remember}
+            onChange={handleChange}
+          />
+        </Form.Group>
+      </div>
       <div className="mt-3">
-        <Button variant="primary" type="submit">
+        <Button className='form-button' type="submit">
           Log In
         </Button>
       </div>
