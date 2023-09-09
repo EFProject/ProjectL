@@ -18,8 +18,13 @@ function NavBar() {
   return (
     <Navbar className="navbar-custom" expand="lg">
       <Container>
-        <Navbar.Brand as={NavLink} to="/" className={`active-link ${window.location.pathname === '/' ? 'selected' : ''}`}>
-          Home
+        <Navbar.Brand as={NavLink} to="/" className={`home-link ${window.location.pathname === '/' ? 'selected-home' : ''}`}>
+          <img
+            src='/favicon.ico'
+            alt="Logo"
+            className="navbar-logo"
+          />
+          OneSport
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="hamburger-menu" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -9,6 +9,18 @@
     border-bottom: 2px solid #ff0046; 
 }
 
+.selected-home {
+  color: #ff0046 !important;
+}
+
+.home-link:hover {
+  color: #ff0046;
+}
+
+.home-link {
+  color: white;
+}
+
 .active-link:hover {
   color: #ff0046 !important;
   border-bottom: 2px solid #ff0046;
@@ -62,4 +74,10 @@ body {
 .card-news {
   background-color: #011f29; 
   color: white
+}
+
+.navbar-logo {
+  width: 40px; 
+  height: auto;
+  margin-right: 10px; 
 }
