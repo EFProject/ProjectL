@@ -24,7 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const responseData = await response.json(); // Parse JSON response
 						const accessToken = responseData.access_token;
 						sessionStorage.setItem("token", accessToken);
-						window.alert("Bentornato " + formData.email + "!")
+						window.alert("Bentornato " + responseData.name + "!")
 						setStore({ token: accessToken })
 						return true;
 
@@ -42,7 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 
 					// Display an error alert
-					window.alert('Login failed. Please try again later.');
+					window.alert('Login failed. Please try again.');
 				}
 			},
 

@@ -24,7 +24,7 @@ app.register_blueprint(news_bp, url_prefix='/news')
 
 @app.route("/", methods=['GET'])
 def home():
-    return "Backend Server is up"
+    return "News Server is up"
 
 
 if __name__ == "__main__":

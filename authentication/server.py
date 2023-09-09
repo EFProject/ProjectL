@@ -32,7 +32,7 @@ jwt = JWTManager(app)
 
 @app.route("/", methods=['GET'])
 def home():
-    return "Backend Server is up"
+    return "Authentication Server is up"
 
 
 if __name__ == "__main__":

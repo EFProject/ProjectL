@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from '../Store/appContext';
 
 function LoginForm() {
-
   const { actions } = useContext(Context);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -32,20 +30,39 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate the form data
+    const validationErrors = {};
+
+    if (!formData.email) {
+      validationErrors.email = 'Email is required';
+    }
+
+    if (!formData.password) {
+      validationErrors.password = 'Password is required';
+    }
+
+    // If there are validation errors, set them and return
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     // Reset any previous errors
     setErrors({});
 
-    actions.login(formData, setErrors).then(() => {
-      navigate('/');
-      setFormData({
-        email: '',
-        password: '',
-        remember: false,
+    actions
+      .login(formData, setErrors)
+      .then(() => {
+        navigate('/');
+        setFormData({
+          email: '',
+          password: '',
+          remember: false,
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
       });
-    }
-    ).catch((error) => {
-      console.error('Error:', error);
-    });
   };
 
   return (
@@ -58,7 +75,7 @@ function LoginForm() {
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter email"
-          isInvalid={!!errors.email} // Add Bootstrap 'is-invalid' class if there's an error
+          isInvalid={!!errors.email}
         />
         <Form.Control.Feedback type="invalid">
           {errors.email}
@@ -89,10 +106,11 @@ function LoginForm() {
           onChange={handleChange}
         />
       </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Log In
-      </Button>
+      <div className="mt-3">
+        <Button variant="primary" type="submit">
+          Log In
+        </Button>
+      </div>
     </Form>
   );
 }

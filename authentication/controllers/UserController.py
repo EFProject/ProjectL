@@ -17,16 +17,17 @@ def login():
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
     if not user or not check_password_hash(user.password, password):
         # if the user doesn't exist or password is wrong, reload the page
-        return jsonify({"message": "Wrong email or password, scriv buon mmerda!"}), 404
+        return jsonify({"message": "Wrong email or password!"}), 404
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
     # create a token
     access_token = create_access_token(identity=email)
 
-    return jsonify({"message": "Welcome back" + user.email + "!",
+    return jsonify({"message": "Welcome back" + user.name + "!",
                     "id": user.id,
                     "email": user.email,
+                    "name": user.name,
                     "access_token": access_token}), 200
 
 
@@ -47,7 +48,7 @@ def signup():
     user = User.query.filter_by(email=email).first()
 
     if user:  # if a user is found, we want to redirect back to signup page so user can try again
-        return jsonify({"message": "Email already exist!"}), 404
+        return jsonify({"message": "Email already exist!"}), 400
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, name=name,
