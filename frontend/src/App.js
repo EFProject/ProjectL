@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import { Link } from 'react-router-dom';
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -12,6 +13,7 @@ import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import NavBar from './Components/NavBar';
 import { Container } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import injectContext, { Context } from './Store/appContext';
 
 function App() {
@@ -19,11 +21,33 @@ function App() {
 	const { store } = useContext(Context);
 
 	function NotFound() {
-		return <div>Page Not Found</div>;
+		return (
+			<Container className="d-flex flex-column justify-content-center align-items-center" id="not-found-container">
+				<h1>Page Not Found</h1>
+				<div className="mt-4">
+					<Link to="/">
+						<Button className='form-button'>
+							Go home
+						</Button>
+					</Link>
+				</div>
+			</Container>
+		);
 	}
 
 	function Logged() {
-		return <div>You are already logged Strunz!</div>;
+		return (
+			<Container className="d-flex flex-column justify-content-center align-items-center" id="not-found-container">
+				<h1>You are already logged!</h1>
+				<div className="mt-4">
+					<Link to="/">
+						<Button className='form-button'>
+							Go home
+						</Button>
+					</Link>
+				</div>
+			</Container>
+		);
 	}
 
 	return (
