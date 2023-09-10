@@ -2,13 +2,15 @@ from datetime import datetime
 import requests
 from flask import jsonify, request
 from models.news import News, db
-
+import os
+api_key = os.environ.get("NEWS_API")
 
 # get all news
+
+
 def get_allNews():
     try:
-
-        url = ('https://newsapi.org/v2/top-headlines?country=us&category=sports&apiKey=6878f1cf47344c10b9c1da2d6e622d2b')
+        url = f'https://newsapi.org/v2/top-headlines?country=us&category=sports&apiKey={api_key}'
 
         response = requests.get(url)
         allNews = response.json()
