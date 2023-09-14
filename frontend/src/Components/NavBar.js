@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Context } from '../Store/appContext';
-import '../css/navbar.css'
+import '../css/style.css'
 
 function NavBar() {
   const { store, actions } = useContext(Context);
@@ -46,10 +46,24 @@ function NavBar() {
                   Signup
                 </Nav.Link>
               </>
-            ) : (
+            ) : (<>
+              <Nav.Link
+                as={NavLink}
+                to="/profile"
+                className={`active-link ${window.location.pathname === '/profile' ? 'selected' : ''}`}>
+                Profile
+              </Nav.Link>
+              <Nav.Link
+                as={NavLink}
+                to="/tickets"
+                className={`active-link ${window.location.pathname === '/tickets' ? 'selected' : ''}`}>
+                Tickets
+              </Nav.Link>
               <Nav.Link onClick={handleLogout} className="active-link">
                 Logout
               </Nav.Link>
+
+            </>
             )}
           </Nav>
         </Navbar.Collapse>

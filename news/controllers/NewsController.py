@@ -1,3 +1,4 @@
+from flask import request, jsonify
 from datetime import datetime
 import requests
 from flask import jsonify, request
@@ -10,12 +11,38 @@ api_key = os.environ.get("NEWS_API")
 
 def get_allNews():
     try:
-        url = f'https://newsapi.org/v2/top-headlines?country=us&category=sports&apiKey={api_key}'
+        country = request.args.get('country')
+
+        q = request.args.get('q')
+
+        pageSize = request.args.get('pageSize')
+        if pageSize is not None and int(pageSize) <= 0:
+            pageSize = None
+
+        page = request.args.get('page')
+        if page is not None and int(page) <= 0:
+            page = None
+
+        url = f'https://newsapi.org/v2/top-headlines?category=sports'
+
+        if country:
+            url += f'&country={country}'
+
+        if q:
+            url += f'&q={q}'
+
+        if pageSize:
+            url += f'&pageSize={pageSize}'
+
+        if page:
+            url += f'&page={page}'
+
+        url += f'&apiKey={api_key}'
 
         response = requests.get(url)
         allNews = response.json()
 
-        return allNews
+        return jsonify(allNews)
     except Exception as e:
         print("Exception:", e)
         return jsonify({"Error": e}), 404
