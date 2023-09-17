@@ -54,12 +54,12 @@ function SignupForm() {
     }
 
     // Check password complexity
-    const passwordRegex = /^(?=.*[0-9])(?=.*[- ?!@#$%^&*\/\\])(?=.*[A-Z])(?=.*[a-z])[a-zA-Z0-9- ?!@#$%^&*\/\\]{8,30}$/;
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     if (!passwordRegex.test(formData.password)) {
       setErrors({
         ...errors,
         password:
-          'Password must be at least 8 and maximun 30 characters with an uppercase letter, a number, and a special symbol.',
+          'Password must be at least 8 and maximum 30 characters, at least one uppercase letter, one lowercase letter, one number and one special character',
       });
       return false;
     }
