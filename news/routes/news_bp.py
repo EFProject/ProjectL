@@ -6,6 +6,6 @@ news_bp = Blueprint('news_bp', __name__)
 
 news_bp.route('/', methods=['GET'])(get_allNews)
 news_bp.route('/create', methods=['POST'])(create_news)
-news_bp.route('/<int:news_id>', methods=['GET'])(get_news)
+news_bp.route('/<int:user_id>', methods=['GET'])(get_news)
 news_bp.route('/<int:news_id>/edit', methods=['PUT'])(update_news)
 news_bp.route('/<int:news_id>', methods=['DELETE'])(delete_news)

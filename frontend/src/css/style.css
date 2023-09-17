@@ -114,3 +114,46 @@ body {
   border: 1px solid #ff0046;
   color: white;
 }
+
+.preferiti-button {
+  margin-left: 1rem;
+}
+
+.preferiti-button.pb-active {
+  background-color: #011f29;
+  border:solid 2px #ff0046;
+}
+
+.preferiti-button.pb-active:active {
+  background-color: #011f29 !important;
+  border:solid 2px #ff0046 !important;
+}
+
+.preferiti-button.pb-active:hover {
+  background-color: #ff0046;
+  border:solid 2px #011f29;
+}
+
+.preferiti-button.pb-active:hover svg{
+  color: #011f29 !important;
+}
+
+.preferiti-button.pb-disabled {
+  background-color: #ff0046;
+  border:solid 2px #011f29;
+}
+
+.preferiti-button.pb-disabled:active {
+  background-color: #ff0046 !important;
+  border:solid 2px #011f29 !important;
+}
+
+.preferiti-button.pb-disabled:hover {
+  background-color: #011f29;
+  border:solid 2px #ff0046;
+}
+
+.preferiti-button.pb-disabled:hover svg{
+  color: #ff0046 !important;
+}
+

@@ -21,9 +21,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 
 					if (response.status === 200) {
-						const responseData = await response.json(); // Parse JSON response
+						const responseData = await response.json();
 						const accessToken = responseData.access_token;
 						sessionStorage.setItem("token", accessToken);
+						sessionStorage.setItem("user_id", responseData.id);
 						window.alert("Bentornato " + responseData.name + "!")
 						setStore({ token: accessToken })
 						return true;

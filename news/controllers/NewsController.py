@@ -54,26 +54,33 @@ def create_news():
     try:
         title = request.json['title']
         description = request.json['description']
-        imageUrl = request.json['imageUrl']
-        news = News(title, description, imageUrl)
+        urlToImage = request.json['urlToImage']
+        published_at = request.json['published_at']
+        user_id = request.json['user_id']
+        url = request.json['url']
+        news = News(title, description, urlToImage, published_at, user_id, url)
         db.session.add(news)
         db.session.commit()
         return news.serialize
     except Exception as e:
-        print("Exception:", e)  # Print the specific exception for debugging
-        return jsonify({"message": "Something went wrong"}), 500
+        print("Exception:", e)
+        return jsonify({"message": "Something went wrong!"}), 500
 
 # get single news
 
 
-def get_news(news_id):
+def get_news(user_id):
     try:
-        news = News.query.filter_by(id=news_id).one()
-        formatted_news = news.serialize
-        return {'news': formatted_news}
+        news = News.query.filter_by(user_id=user_id).order_by(
+            News.published_at.desc()).all()
+        news_list = []
+        for n in news:
+            news_list.append(n.serialize)
+
+        return {'news': news_list}
     except Exception as e:
-        print("Exception:", e)  # Print the specific exception for debugging
-        return 'No News ' + str(news_id) + ' exists', 404
+        print("Exception:", e)
+        return 'No News for the user ' + str(user_id) + ' exists', 404
 
 
 # edit an news
@@ -86,11 +93,16 @@ def update_news(news_id):
 
         new_title = request.json.get('title')
         new_description = request.json.get('description')
-        new_imagineUrl = request.json.get('imageUrl')
+        new_urlToImage = request.json.get('urlToImage')
+        new_published_at = request.json.get('published_at')
+        new_user_id = request.json.get('user_id')
+        new_url = request.json.get('url')
         news.title = new_title
         news.description = new_description
-        news.imagineUrl = new_imagineUrl
-        news.created_at = datetime.utcnow()  # Update the created_at field if needed
+        news.urlToImage = new_urlToImage
+        news.published_at = new_published_at
+        news.user_id = new_user_id
+        news.url = new_url
 
         db.session.commit()
         return jsonify({"message": "News updated successfully"})
