@@ -3,6 +3,7 @@ import FavoriteButton from './FavoriteButton';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const NewsList = ({ data, favorites: initialFavorites, onAddToFavorites }) => {
+  console.log(data)
   const [favorites, setFavorites] = useState(initialFavorites);
 
   const toggleFavorite = (index) => {
@@ -14,7 +15,7 @@ const NewsList = ({ data, favorites: initialFavorites, onAddToFavorites }) => {
       console.log(deletePref)
       onAddToFavorites(deletePref, true);
     } else {
-      const newItem = { title: item.title, description: item.description, urlToImage: item.urlToImage, published_at: item.publishedAt, user_id: sessionStorage.getItem('user_id'), url: item.url };
+      const newItem = { title: item.title, author: item.author, urlToImage: item.urlToImage, published_at: item.publishedAt, user_id: sessionStorage.getItem('user_id'), url: item.url };
 
       setFavorites([...favorites, item]);
 
@@ -47,8 +48,8 @@ const NewsList = ({ data, favorites: initialFavorites, onAddToFavorites }) => {
                     onError={handleImageError}
                   />
                   <Card.Body>
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Text>{item.description}</Card.Text>
+                    <Card.Title>{item.title.substring(0, item.title.lastIndexOf('-'))}</Card.Title>
+                    <Card.Text>{item.author}</Card.Text>
                     <Button
                       className="form-button"
                       href={item.url}

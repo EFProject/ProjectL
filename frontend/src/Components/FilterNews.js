@@ -3,9 +3,9 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 function FilterNews({ onFilterChange }) {
     const [filter, setFilter] = useState({
-        country: '',
+        country: 'it', //default language it
         q: '',
-        pageSize: 20,
+        pageSize: 10,
         page: 1,
     });
 

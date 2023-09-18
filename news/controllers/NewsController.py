@@ -47,32 +47,33 @@ def get_allNews():
         print("Exception:", e)
         return jsonify({"Error": e}), 404
 
-# create an news
 
+# add news to favorite
 
 def create_news():
     try:
         title = request.json['title']
-        description = request.json['description']
+        author = request.json['author']
         urlToImage = request.json['urlToImage']
         published_at = request.json['published_at']
         user_id = request.json['user_id']
         url = request.json['url']
-        news = News(title, description, urlToImage, published_at, user_id, url)
+        news = News(title, author, urlToImage, published_at, user_id, url)
         db.session.add(news)
         db.session.commit()
         return news.serialize
     except Exception as e:
         print("Exception:", e)
-        return jsonify({"message": "Something went wrong!"}), 500
+        return jsonify({"message": e}), 500
 
-# get single news
 
+# get news from an user
 
 def get_news(user_id):
     try:
         news = News.query.filter_by(user_id=user_id).order_by(
             News.published_at.desc()).all()
+
         news_list = []
         for n in news:
             news_list.append(n.serialize)
@@ -83,7 +84,8 @@ def get_news(user_id):
         return 'No News for the user ' + str(user_id) + ' exists', 404
 
 
-# edit an news
+# edit a news
+
 def update_news(news_id):
     try:
         # Retrieve the news instance using .one()
@@ -92,13 +94,13 @@ def update_news(news_id):
             return jsonify({"message": "News not found"}), 404
 
         new_title = request.json.get('title')
-        new_description = request.json.get('description')
+        new_author = request.json.get('author')
         new_urlToImage = request.json.get('urlToImage')
         new_published_at = request.json.get('published_at')
         new_user_id = request.json.get('user_id')
         new_url = request.json.get('url')
         news.title = new_title
-        news.description = new_description
+        news.author = new_author
         news.urlToImage = new_urlToImage
         news.published_at = new_published_at
         news.user_id = new_user_id
@@ -110,8 +112,8 @@ def update_news(news_id):
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
 
-# delete an news
 
+# delete a news from favorites
 
 def delete_news(news_id):
     try:

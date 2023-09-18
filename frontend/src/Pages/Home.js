@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NewsList from '../Components/NewsList';
-import MyNews from '../Components/MyNews'; // Import your MyNews component here
+import MyNews from '../Components/MyNews'; 
 import NewsFilter from '../Components/FilterNews';
 import Pagination from '../Components/Pagination';
 import { Container, Button } from 'react-bootstrap';
@@ -11,9 +11,9 @@ function Home() {
 	const [favorites, setFavorites] = useState([]);
 	const [selectedTab, setSelectedTab] = useState('latest');
 	const [filter, setFilter] = useState({
-		country: '',
+		country: 'it',
 		q: '',
-		pageSize: 20,
+		pageSize: 10,
 		page: 1,
 	});
 
