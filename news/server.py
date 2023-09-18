@@ -7,6 +7,7 @@ from config import ApplicationConfig
 
 from models.news import db
 from routes.news_bp import news_bp
+from sqlalchemy.sql import text
 
 
 app = Flask(__name__)
@@ -29,7 +30,18 @@ def home():
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
+        with open('models/exist_table', 'r') as file:
+            query_text = file.read()
+        query = text(query_text)
 
+        if not db.session.query(query).scalar():
+            db.create_all()
+
+            with open('models/fk_user', 'r') as file:
+                query_text = file.read()
+
+            query = text(query_text)
+            db.session.execute(query)
+            db.session.commit()
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
