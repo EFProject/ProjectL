@@ -30,14 +30,14 @@ def home():
 
 if __name__ == "__main__":
     with app.app_context():
-        with open('models/exist_table', 'r') as file:
+        with open('models/query/exist_table', 'r') as file:
             query_text = file.read()
         query = text(query_text)
 
         if not db.session.query(query).scalar():
             db.create_all()
 
-            with open('models/fk_user', 'r') as file:
+            with open('models/query/fk_user', 'r') as file:
                 query_text = file.read()
 
             query = text(query_text)

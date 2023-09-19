@@ -1,3 +1,5 @@
+-- add foreign key on user table
+
 ALTER TABLE news
 ADD CONSTRAINT news_user_id_fk
 FOREIGN KEY (user_id)

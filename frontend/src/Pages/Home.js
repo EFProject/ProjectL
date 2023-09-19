@@ -11,7 +11,7 @@ function Home() {
 	const [favorites, setFavorites] = useState([]);
 	const [selectedTab, setSelectedTab] = useState('latest');
 	const [filter, setFilter] = useState({
-		country: 'it',
+		country: 'us',
 		q: '',
 		pageSize: 10,
 		page: 1,

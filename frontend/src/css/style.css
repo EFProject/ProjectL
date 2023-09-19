@@ -157,3 +157,32 @@ body {
   color: #ff0046 !important;
 }
 
+.ticket-purchase-button {
+  background-color: #007bff; /* Button background color */
+  color: #ffffff; /* Button text color */
+}
+
+.ticket-purchase-button:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}
+
+.ticket-remaining-button {
+  background-color: #4CAF50; /* Green background color */
+  color: #fff; /* White text color */
+  padding: 10px 20px; /* Button padding */
+  border: none; /* Remove button border */
+  cursor: pointer;
+  font-size: 16px; /* Font size */
+  text-align: center;
+}
+
+.ticket-remaining-count {
+  font-weight: bold; /* Make the count bold */
+  font-size: 18px; /* Font size for the count */
+  margin-right: 8px; /* Space between count and "Tickets Remaining" text */
+}
+
+/* Add hover styles if needed */
+.ticket-remaining-button:hover {
+  background-color: #45a049; /* Darker green background on hover */
+}

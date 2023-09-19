@@ -45,5 +45,16 @@ services:
     depends_on:
       - postgres
 
+  tickets: 
+    build: ./tickets
+    ports:
+    - "5002:5002" 
+    volumes:
+    - ./tickets:/tickets
+    environment:
+      - DB_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    depends_on:
+      - postgres
+
 volumes:
  pgdata: {}
