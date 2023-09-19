@@ -11,7 +11,7 @@ api_key = os.environ.get("TICKETS_API")
 
 def get_allTickets():
     try:
-        locale = request.args.get('locale')
+        countryCode = request.args.get('countryCode')
 
         keyword = request.args.get('keyword')
 
@@ -24,10 +24,10 @@ def get_allTickets():
             page = None
 
         #url for ticket master sports  
-        url = f'https://app.ticketmaster.com/discovery/v2/events?classificationId=KZFzniwnSyZfZ7v7nE'
+        url = f'https://app.ticketmaster.com/discovery/v2/events?classificationId=KZFzniwnSyZfZ7v7nE&locale=*'
 
-        if locale:
-            url += f'&locale={locale}'
+        if countryCode:
+            url += f'&countryCode={countryCode}'
 
         if keyword:
             url += f'&keyword={keyword}'

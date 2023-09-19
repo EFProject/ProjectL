@@ -3,13 +3,13 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 function FilterTickets({ onFilterChange }) {
     const [filter, setFilter] = useState({
-        locale: 'us', //default language us
+        countryCode: 'us', //default language us
         keyword: '',
         size: 10,
         page: 0,
     });
 
-    const localeOptions = [
+    const countryCodeOptions = [
         'ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg',
         'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma',
         'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg',
@@ -38,13 +38,13 @@ function FilterTickets({ onFilterChange }) {
                         <Form.Label>Country:</Form.Label>
                         <Form.Control
                             as="select"
-                            id="locale"
-                            name="locale"
-                            value={filter.locale}
+                            id="countryCode"
+                            name="countryCode"
+                            value={filter.countryCode}
                             onChange={handleChange}
                         >
                             <option value="">Select Country</option>
-                            {localeOptions.map((option) => (
+                            {countryCodeOptions.map((option) => (
                                 <option key={option} value={option}>
                                     {option.toUpperCase()}
                                 </option>

@@ -11,7 +11,7 @@ function Tickets() {
 	const [collection, setCollection] = useState([]);
 	const [selectedTab, setSelectedTab] = useState('store');
 	const [filter, setFilter] = useState({
-		locale: 'us',
+		countryCode: 'us',
 		keyword: '',
 		size: 10,
 		page: 0,
@@ -20,8 +20,8 @@ function Tickets() {
 	const buildApiUrl = () => {
 		let apiUrl = 'http://localhost:5002/tickets/?';
 
-		if (filter.locale) {
-			apiUrl += `locale=${filter.locale}&`;
+		if (filter.countryCode) {
+			apiUrl += `countryCode=${filter.countryCode}&`;
 		}
 
 		if (filter.keyword) {
