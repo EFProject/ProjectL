@@ -33,8 +33,8 @@ const MyNews = ({ favorites: initialFavorites, onAddToFavorites, updatedFavorite
                                     onError={handleImageError}
                                 />
                                 <Card.Body>
-                                    <Card.Title>{item.title}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
+                                    <Card.Title>{item.title.substring(0, item.title.lastIndexOf('-'))}</Card.Title>
+                                    <Card.Text>{item.author}</Card.Text>
                                     <Button
                                         className="form-button"
                                         href={item.url}
