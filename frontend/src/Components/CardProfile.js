@@ -24,9 +24,27 @@ function CardProfile() {
 			});
 	};
 
+	function fetchUserInfo() {
+		const userApiUrl = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id');
+		fetch(userApiUrl)
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				} else {
+					throw new Error('Failed to fetch user');
+				}
+			})
+			.then((currentUser) => {
+				setUserName(currentUser.user.name);
+				setUserEmail(currentUser.user.email);
+			})
+			.catch((error) => {
+				console.error('Error fetching user:', error);
+			});
+	};
+
     useEffect(() => {
-		setUserEmail(sessionStorage.getItem('email'));
-		setUserName(sessionStorage.getItem('name'));
+		fetchUserInfo()
         fetchFavorites()
 	}, []);
 

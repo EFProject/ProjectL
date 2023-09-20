@@ -96,15 +96,20 @@ def update_user(user_id):
     new_email = request.json['email']
     new_name = request.json['name']
     new_password = request.json['password']
+    old_password_plaintext = request.json['oldPassword']
     try:
         # Retrieve the user instance using .one()
         user = User.query.filter_by(id=user_id).one()
         if not user:
             return jsonify({"message": "user not found"}), 404
+        
+        validPasswordHash = check_password_hash(user.password, old_password_plaintext)
+        if not validPasswordHash:
+            return jsonify({"message": "current password is wrong"}), 404
 
         if User.query.filter_by(email=new_email).first():
             return jsonify({"message": "mail already exist!"}), 404
-
+        
         if new_email != '':
             user.email = new_email
         if new_name != '':
@@ -122,8 +127,14 @@ def update_user(user_id):
 
 
 def delete_user(user_id):
+    old_password_plaintext = request.json['oldPassword']
     try:
         user = User.query.filter_by(id=user_id).one()
+
+        validPasswordHash = check_password_hash(user.password, old_password_plaintext)
+        if not validPasswordHash:
+            return jsonify({"message": "current password is wrong"}), 404
+
         db.session.delete(user)
         db.session.commit()
         return jsonify({"message": "user deleted successfully"})
