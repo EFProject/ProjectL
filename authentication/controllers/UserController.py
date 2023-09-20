@@ -105,9 +105,12 @@ def update_user(user_id):
         if User.query.filter_by(email=new_email).first():
             return jsonify({"message": "mail already exist!"}), 404
 
-        user.email = new_email
-        user.name = new_name
-        user.password = generate_password_hash(new_password, method='sha256')
+        if new_email != '':
+            user.email = new_email
+        if new_name != '':
+            user.name = new_name
+        if new_password != '':
+            user.password = generate_password_hash(new_password, method='sha256')
 
         db.session.commit()
         return jsonify({"message": "user updated successfully"})
