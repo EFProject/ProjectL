@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 function ProfileSettings() {
   const [buttonState, setButtonState] = useState(true)
   const [isModifyButton, setIsModifyButton] = useState(true)
+  const [deleteMyNews, setDeleteMyNews] = useState(false)
   const [smShow, setSmShow] = useState(false);
   const [typeChange, setTypeChange] = useState(null);
   const [errors, setErrors] = useState({});
@@ -35,6 +36,10 @@ function ProfileSettings() {
     } else {
       setButtonState(true);
     }
+  })
+
+  const handleSwitch = (()=> {
+    setDeleteMyNews(!deleteMyNews)
   })
 
   const handleModal = ((type) => {
@@ -62,7 +67,8 @@ function ProfileSettings() {
     if (
       formData.email.trim() === '' &&
       formData.name.trim() === '' &&
-      formData.password.trim() === ''
+      formData.password.trim() === '' &&
+      !deleteMyNews
     ) {
       setErrors({
         email: !formData.email ? 'You must fill at least one field' : '',
@@ -128,28 +134,14 @@ function ProfileSettings() {
       return;
     }
 
-    try {
-      const url = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id') + '/edit';
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
 
-      if (response.status === 200) {
-        response.json().then((data) => {
-          window.alert(data.message); 
-        });
-        setSmShow(false);
-        window.location.reload();
-      } else if (response.status === 404) {
-        response.json().then((data) => {
-          window.alert(data.message); // Assuming the error message is in the 'message' field
-        });
+    const url = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id') + '/edit';
+    const result = fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) })
+    .then(response => {
+      if (response.status === 404){
         // Reset the form fields
         setSmShow(false);
+        setIsModifyButton(false);
         setFormData({
           ...formData,
           email: '',
@@ -157,19 +149,93 @@ function ProfileSettings() {
           password: '',
           oldPassword: '',
         });
+        response.json().then((data) => {
+          window.alert(data.message); // Assuming the error message is in the 'message' field
+          throw new Error(data.message);
+        });
       }
-    } catch (error) {
-      // Handle errors (e.g., network issues, server errors)
-      console.error('Profile update error:', error.message);
+      return response.json()
+    }) 
+    .then((data) => {
+      console.log("prova")
+      if(!deleteMyNews){
+        setSmShow(false);
+        window.location.reload();
+        window.alert(data.message);
+      } else {
+        console.log("Entro")
+        const deleteNewsApiUrl = 'http://localhost:5000/news/' + sessionStorage.getItem('user_id') + '/all';
+        const resultNews = fetch(deleteNewsApiUrl, { method: 'DELETE'})
+        .then(response => {
+          if (response.status === 404){
+            setSmShow(false);
+            setIsModifyButton(false);
+            setFormData({
+              ...formData,
+              email: '',
+              name: '',
+              password: '',
+              oldPassword: '',
+            });
+          }
+          console.log("QUI")
+          response.json().then(() => {
+            setSmShow(false);
+            window.location.reload();
+            window.alert(data.message);
+          });
+        })
+      }
+    })
+    .catch(err => {
+      console.error('Request failed', err)
+    })
 
-      // Set error messages based on the specific error received
-      setErrors({
-        serverError: error.message,
-      });
 
-      // Display an error alert
-      window.alert('Something went wrong. Please try again.');
-    }
+
+
+    // try {
+    //   const url = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id') + '/edit';
+    //   const response = await fetch(url, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
+
+    //   if (response.status === 200) {
+    //     response.json().then((data) => {
+    //       window.alert(data.message); 
+    //     });
+    //     setSmShow(false);
+    //     window.location.reload();
+    //   } else if (response.status === 404) {
+    //     response.json().then((data) => {
+    //       window.alert(data.message); // Assuming the error message is in the 'message' field
+    //     });
+    //     // Reset the form fields
+    //     setSmShow(false);
+    //     setFormData({
+    //       ...formData,
+    //       email: '',
+    //       name: '',
+    //       password: '',
+    //       oldPassword: '',
+    //     });
+    //   }
+    // } catch (error) {
+    //   // Handle errors (e.g., network issues, server errors)
+    //   console.error('Profile update error:', error.message);
+
+    //   // Set error messages based on the specific error received
+    //   setErrors({
+    //     serverError: error.message,
+    //   });
+
+    //   // Display an error alert
+    //   window.alert('Something went wrong. Please try again.');
+    // }
 
   };
 
@@ -201,7 +267,7 @@ function ProfileSettings() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="News">
-          <Form.Check type="switch" id="switchNews" label="Elimina My News"/>
+          <Form.Check onChange={handleSwitch} value={deleteMyNews} type="switch" id="switchNews" label="Elimina My News"/>
         </Form.Group>
 
         <hr className="hr-card"></hr>

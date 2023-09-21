@@ -124,3 +124,14 @@ def delete_news(news_id):
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
+
+def delete_all_news_user(user_id):
+    try:
+        all_news = News.query.filter_by(user_id=user_id).all()
+        for news in all_news:
+            db.session.delete(news)
+        db.session.commit()
+        return jsonify({"message": "All your news has been deleted correctly successfully"})
+    except Exception as e:
+        print("Exception:", e)  # Print the specific exception for debugging
+        return jsonify({"message": "Something went wrong"}), 500
