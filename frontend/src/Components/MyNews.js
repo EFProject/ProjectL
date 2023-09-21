@@ -27,7 +27,7 @@ const MyNews = ({ favorites: initialFavorites, onAddToFavorites, updatedFavorite
                         <Col xs={12} sm={12} md={6} lg={6} key={index}>
                             <Card className="mb-4 card-news">
                                 <Card.Img
-                                    src={!item.urlToImage ? '/default.jpg' : item.urlToImage}
+                                    src={!item.imageUrl ? '/default.jpg' : item.imageUrl}
                                     className="img-card img-fluid"
                                     style={{ objectFit: 'scale-down' }}
                                     onError={handleImageError}
