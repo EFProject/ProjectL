@@ -134,7 +134,6 @@ function ProfileSettings() {
       return;
     }
 
-
     const url = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id') + '/edit';
     const result = fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) })
     .then(response => {
@@ -157,13 +156,11 @@ function ProfileSettings() {
       return response.json()
     }) 
     .then((data) => {
-      console.log("prova")
       if(!deleteMyNews){
         setSmShow(false);
         window.location.reload();
         window.alert(data.message);
       } else {
-        console.log("Entro")
         const deleteNewsApiUrl = 'http://localhost:5000/news/' + sessionStorage.getItem('user_id') + '/all';
         const resultNews = fetch(deleteNewsApiUrl, { method: 'DELETE'})
         .then(response => {
@@ -178,7 +175,6 @@ function ProfileSettings() {
               oldPassword: '',
             });
           }
-          console.log("QUI")
           response.json().then(() => {
             setSmShow(false);
             window.location.reload();
@@ -190,53 +186,6 @@ function ProfileSettings() {
     .catch(err => {
       console.error('Request failed', err)
     })
-
-
-
-
-    // try {
-    //   const url = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id') + '/edit';
-    //   const response = await fetch(url, {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   if (response.status === 200) {
-    //     response.json().then((data) => {
-    //       window.alert(data.message); 
-    //     });
-    //     setSmShow(false);
-    //     window.location.reload();
-    //   } else if (response.status === 404) {
-    //     response.json().then((data) => {
-    //       window.alert(data.message); // Assuming the error message is in the 'message' field
-    //     });
-    //     // Reset the form fields
-    //     setSmShow(false);
-    //     setFormData({
-    //       ...formData,
-    //       email: '',
-    //       name: '',
-    //       password: '',
-    //       oldPassword: '',
-    //     });
-    //   }
-    // } catch (error) {
-    //   // Handle errors (e.g., network issues, server errors)
-    //   console.error('Profile update error:', error.message);
-
-    //   // Set error messages based on the specific error received
-    //   setErrors({
-    //     serverError: error.message,
-    //   });
-
-    //   // Display an error alert
-    //   window.alert('Something went wrong. Please try again.');
-    // }
-
   };
 
   return (
