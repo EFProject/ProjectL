@@ -42,9 +42,29 @@ def get_allTickets():
 
         response = requests.get(url)
         allTickets = response.json()
+        totalPages= allTickets.get("page", {}).get("totalPages")
         allTickets = allTickets.get("_embedded", {}).get("events", [])
+        allTicketsFormatted = []
 
-        return allTickets
+        for ticket in allTickets:
+            ticketFormatted = {}
+
+            if "accessibility" in ticket:
+                ticketFormatted["ticketLimit"] = ticket["accessibility"].get("ticketLimit", None)
+            
+            if "priceRanges" in ticket:
+                ticketFormatted["priceRanges"] = ticket.get("priceRanges", [])[0]
+
+            ticketFormatted["localDate"] = ticket.get("dates", {}).get("start", {}).get("localDate", None) + " " + ticket.get("dates", {}).get("start", {}).get("localTime", None)
+            ticketFormatted["urlToImage"] = ticket.get("images", [])[0].get("url", None)
+            ticketFormatted["info"] = ticket.get("info", None)
+            ticketFormatted["name"] = ticket.get("name", None)
+            ticketFormatted["promoter"] = ticket.get("promoter", {}).get("name", None)
+            ticketFormatted["url"] = ticket.get("url", None)
+
+            allTicketsFormatted.append(ticketFormatted)
+
+        return jsonify({"allTickets": allTicketsFormatted, "totalPages": totalPages})
     except Exception as e:
         print("Exception:", e)
         return jsonify({"Error": e}), 404
@@ -56,11 +76,12 @@ def collect_ticket():
     try:
         name = request.json['name']
         info = request.json['info']
+        promoter = request.json['promoter']
         urlToImage = request.json['urlToImage']
-        published_at = request.json['published_at']
+        localDate = request.json['localDate']
         user_id = request.json['user_id']
         url = request.json['url']
-        tickets = Tickets(name, info, urlToImage, published_at, user_id, url)
+        tickets = Tickets(name, info, promoter, urlToImage, localDate, user_id, url)
         db.session.add(tickets)
         db.session.commit()
         return tickets.serialize
@@ -74,7 +95,7 @@ def collect_ticket():
 def get_tickets(user_id):
     try:
         tickets = Tickets.query.filter_by(user_id=user_id).order_by(
-            Tickets.published_at.desc()).all()
+            Tickets.localDate.desc()).all()
 
         tickets_list = []
         for n in tickets:
@@ -115,11 +136,11 @@ def get_tickets(user_id):
 #         return jsonify({"message": "Something went wrong"}), 500
 
 
-# delete a ticket from favorites
+# delete a ticket from collection
 
-def delete_ticket(tickets_id):
+def delete_ticket(ticket_id):
     try:
-        ticket = Tickets.query.filter_by(id=tickets_id).one()
+        ticket = Tickets.query.filter_by(id=ticket_id).one()
         db.session.delete(ticket)
         db.session.commit()
         return jsonify({"message": "Ticket deleted successfully"})

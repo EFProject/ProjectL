@@ -1,4 +1,5 @@
 from flask import Blueprint
+
 from controllers.TicketsController import get_allTickets, collect_ticket, get_tickets, delete_ticket
 
 tickets_bp = Blueprint('tickets_bp', __name__)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MyCollection from '../Components/MyNews'; 
+import MyCollection from '../Components/MyCollection'; 
 import Pagination from '../Components/Pagination';
 import { Container, Button } from 'react-bootstrap';
 import TicketList from '../Components/TicketList';
@@ -33,30 +33,29 @@ function Tickets() {
 		return apiUrl;
 	};
 
-	// const fetchCollection = () => {
-	// 	const collectionApiUrl = 'http://localhost:5002/tickets/' + sessionStorage.getItem('user_id');
-	// 	fetch(collectionApiUrl)
-	// 		.then((response) => {
-	// 			if (response.status === 200) {
-	// 				return response.json();
-	// 			} else {
-	// 				throw new Error('Failed to fetch collection');
-	// 			}
-	// 		})
-	// 		.then((collectionData) => {
-	// 			setCollection(collectionData.tickets);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.error('Error fetching collection:', error);
-	// 		});
-	// };
+	const fetchCollection = () => {
+		const collectionApiUrl = 'http://localhost:5002/tickets/' + sessionStorage.getItem('user_id');
+		fetch(collectionApiUrl)
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				} else {
+					throw new Error('Failed to fetch collection');
+				}
+			})
+			.then((collectionData) => {
+				setCollection(collectionData.tickets);
+			})
+			.catch((error) => {
+				console.error('Error fetching collection:', error);
+			});
+	};
 
 	const apiUrl = buildApiUrl();
 
 	useEffect(() => {
-		console.log(filter)
 		setIsLoading(true);
-		// fetchCollection();
+		fetchCollection();
 		fetch(apiUrl)
 			.then((response) => {
 				if (response.status === 200) {
@@ -84,8 +83,8 @@ function Tickets() {
 	const onAddToCollection = (item, collected) => {
 		if (selectedTab === 'store' && !collected) {
 
-			const createNewsApiUrl = 'http://localhost:5002/tickets/collect';
-			fetch(createNewsApiUrl, {
+			const createTicketsApiUrl = 'http://localhost:5002/tickets/collect';
+			fetch(createTicketsApiUrl, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -105,26 +104,19 @@ function Tickets() {
 					window.alert('Failed to collect ticket in your profile')
 					console.error('Error collect ticket:', error);
 				});
-		} else if (selectedTab === 'myCollection' || collected) {
 
-			let id = ''
-			if (!item.id) {
-				const deletePref = collection.find((fav) => fav.title === item.title);
-				id = deletePref.id;
-			} else {
-				id = item.id
-			}
-			const deleteNewsApiUrl = 'http://localhost:5002/tickets/' + id;
+		} else if (selectedTab === 'myCollection' || collected) {
+		
+			const deleteNewsApiUrl = 'http://localhost:5002/tickets/' + item.id;
 			fetch(deleteNewsApiUrl, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(item),
 			})
 				.then((response) => {
 					if (response.status === 200) {
-						const updateCollection = collection.filter((fav) => fav.id !== id);
+						const updateCollection = collection.filter((coll) => coll.id !== item.id);
 						setCollection(updateCollection);
 					} else {
 						window.alert('Failed to delete ticket from collection')
@@ -161,12 +153,12 @@ function Tickets() {
 					<FilterTickets onFilterChange={handleFilterChange} />
 					{isLoading ? (
 						<Container className="mt-4"><h4>Loading Tickets...</h4></Container>
-					) : data ? (
+					) : data.allTickets ? (
 						<>
-							<TicketList data={data} collection={collection} onAddToCollection={onAddToCollection} />
+							<TicketList data={data.allTickets} collection={collection} onAddToCollection={onAddToCollection} />
 							<Pagination
 								currentPage={filter.page}
-								totalPages={Math.ceil(data.totalResults / filter.pageSize)}
+								totalPages={Math.ceil(data.totalPages)}
 								onPageChange={handlePageChange}
 							/>
 						</>
@@ -179,7 +171,7 @@ function Tickets() {
 				<>
 					{collection && collection.length > 0 ? (
 						<>
-							<MyCollection collection={collection} onAddToCollection={onAddToCollection}/>
+							<MyCollection initialCollection={collection} onAddToCollection={onAddToCollection}/>
 						</>
 					) : (
 						<Container className="mt-4"><h4>No tickets in your collection, go to 'Ticket Store'</h4></Container>

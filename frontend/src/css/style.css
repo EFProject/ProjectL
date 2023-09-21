@@ -186,3 +186,18 @@ body {
 .ticket-remaining-button:hover {
   background-color: #45a049; /* Darker green background on hover */
 }
+
+#square-container {
+  width: 200px; /* Adjust the size as needed */
+  height: 50px; /* Adjust the size as needed */
+  border: 2px solid #00FF00; /* Green border */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#square-message {
+  font-size: 16px; /* Adjust the font size as needed */
+  text-align: center;
+}
+

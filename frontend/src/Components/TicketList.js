@@ -7,15 +7,16 @@ const TicketList = ({ data, collection: initialCollection, onAddToCollection }) 
   const [collection, setCollection] = useState(initialCollection);
 
   const toggleCollection = (index) => {
-    const isCollected = collection.some((coll) => coll.title === data.articles[index].title);
-    const item = data.articles[index];
+    const isCollected = collection.some((coll) => coll.name === data[index].name);
+    const item = data[index];
+    
     if (isCollected) {
-      const uncollected = collection.find((coll) => coll.title === item.title);
-      setCollection(collection.filter((coll) => coll.title !== item.title));
-      console.log(uncollected)
+      const uncollected = collection.find((coll) => coll.name === item.name);
+      setCollection(collection.filter((coll) => coll.name !== item.name));
+      
       onAddToCollection(uncollected, true);
     } else {
-      const newItem = { title: item.title, author: item.author, urlToImage: item.urlToImage, published_at: item.publishedAt, user_id: sessionStorage.getItem('user_id'), url: item.url };
+      const newItem = { name: item.name, info: item.info, urlToImage: item.urlToImage, localDate: item.localDate, promoter: item.promoter, user_id: sessionStorage.getItem('user_id'), url: item.url };
 
       setCollection([...collection, item]);
 
@@ -41,14 +42,14 @@ const TicketList = ({ data, collection: initialCollection, onAddToCollection }) 
               <Col xs={12} sm={12} md={6} lg={6} key={index}>
                 <Card className="mb-4 card-news">
                   <Card.Img
-                    src={!item.images[0] ? '/default.jpg' : item.images[0].url}
+                    src={!item.urlToImage ? '/default.jpg' : item.urlToImage}
                     className="img-card img-fluid"
                     style={{ objectFit: 'scale-down' }}
                     onError={handleImageError}
                   />
                   <Card.Body>
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>{item.priceRanges ? <>Price : {item.priceRanges[0].min} - {item.priceRanges[0].max} {item.priceRanges[0].currency}</> : <></>}</Card.Text>
+                    <Card.Title>{item.name} <div style={{ fontFamily: 'serif' }}>{item.promoter}</div></Card.Title>
+                    {item.priceRanges ? <div style={{ fontFamily: 'serif' }}>Prices from {item.priceRanges.min} to {item.priceRanges.max} {item.priceRanges.currency}</div> : <></>}
                     <Button
                       className="form-button"
                       href={item.url}
@@ -58,8 +59,11 @@ const TicketList = ({ data, collection: initialCollection, onAddToCollection }) 
                       Purchase
                     </Button>
                     <CollectionButton item={item} isCollected={isCollected} onToggle={() => toggleCollection(index)} />
+                    {item.ticketLimit ? <div id="square-container">
+                       <div id="square-message">{item.ticketLimit} tickets limit!</div>
+                    </div> : <></>}
                   </Card.Body>
-                  <Card.Footer className="text-white text-center bg-dark">{item.dates ? item.dates.start.localDate : <></>}</Card.Footer>
+                  <Card.Footer className="text-white text-center bg-dark">{item.localDate}</Card.Footer>
                 </Card>
               </Col>
             );

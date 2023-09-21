@@ -21,8 +21,6 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 
-			console.log(process.env.REACT_APP_AUTH)
-
 			state.actions.checkToken();
 			state.actions.syncTokenFromSessionStorage();
 
