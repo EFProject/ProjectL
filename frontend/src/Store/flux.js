@@ -25,6 +25,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const accessToken = responseData.access_token;
 						sessionStorage.setItem("token", accessToken);
 						sessionStorage.setItem("user_id", responseData.id);
+						sessionStorage.setItem("email", responseData.email);
+						sessionStorage.setItem("name", responseData.name);
 						window.alert("Bentornato " + responseData.name + "!")
 						setStore({ token: accessToken })
 						return true;

@@ -51,10 +51,28 @@ body {
   border:solid 2px #ff0046 !important;
 }
 
+.form-button:disabled {
+  background-color: #ff0046;
+  border:solid 2px #ff0046;
+}
 
 .form-button:hover {
   background-color: #010a0f;
   border:solid 2px #ff0046;
+}
+
+.form-button-profile {
+  border:solid 2px #006eff;
+}
+
+.form-button-profile:active {
+  background-color: #010a0f !important;
+  border:solid 2px #006eff !important;
+}
+
+.form-button-profile:hover {
+  background-color: #010a0f;
+  border:solid 2px #006eff;
 }
 
 .outline-form-button {
@@ -201,3 +219,25 @@ body {
   text-align: center;
 }
 
+.hr-card {
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.348);
+  /* border-top: 1px solid rgba(0, 0, 0, 0.1); */
+}
+
+#ModalHeader{
+  background-color: #1b1e21;
+}
+
+.modalProfile{
+  background-color: #212529;
+}
+
+.modalProfile{
+  background-color: #212529;
+}
+
+.footerProfile{
+  justify-content: center;
+}
