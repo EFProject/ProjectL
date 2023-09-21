@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
 
 function SignupForm() {
   const navigate = useNavigate();
@@ -11,6 +12,9 @@ function SignupForm() {
     password: '',
     repeatPassword: '',
   });
+  const [smShow, setSmShow] = useState(false)
+  const [textModal, setTextModal] = useState(null)
+  const [showLoginButton, setShowLoginButton] = useState(true)
 
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -86,11 +90,6 @@ function SignupForm() {
       });
 
       if (response.status === 200) {
-        // If the response is successful, display a success alert
-        window.alert('Signup successful!');
-
-        navigate('/login');
-
         // Reset the form fields
         setFormData({
           email: '',
@@ -98,8 +97,10 @@ function SignupForm() {
           password: '',
           repeatPassword: '',
         });
+        setShowLoginButton(true)
+        setTextModal('Signup successful!')
+        setSmShow(true)
       } else if (response.status === 400) {
-        window.alert('Email already used, use another one!');
         // Reset the form fields
         setFormData({
           ...formData,
@@ -107,6 +108,9 @@ function SignupForm() {
           password: '',
           repeatPassword: '',
         });
+        setShowLoginButton(false)
+        setTextModal('Email already used, use another one!');
+        setSmShow(true)
       }
     } catch (error) {
       // Handle errors (e.g., network issues, server errors)
@@ -117,101 +121,117 @@ function SignupForm() {
         serverError: error.message,
       });
 
-      // Display an error alert
-      window.alert('Something went wrong. Please try again.');
+      setTextModal('Something went wrong. Please try again.');
+      setShowLoginButton(false)
+      setSmShow(true)
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="email">
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter email"
-          isInvalid={!!errors.email}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.email}
-        </Form.Control.Feedback>
-      </Form.Group>
-
-      <div className="mt-2">
-        <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="email">
+          <Form.Label>Email</Form.Label>
           <Form.Control
-            type="text"
-            name="name"
-            value={formData.name}
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            placeholder="Enter name"
-            isInvalid={!!errors.name}
+            placeholder="Enter email"
+            isInvalid={!!errors.email}
           />
           <Form.Control.Feedback type="invalid">
-            {errors.name}
+            {errors.email}
           </Form.Control.Feedback>
         </Form.Group>
-      </div>
 
-      <div className="mt-2">
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <div className="input-group">
+        <div className="mt-2">
+          <Form.Group controlId="name">
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              value={formData.password}
+              type="text"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              placeholder="Password"
-              isInvalid={!!errors.password}
+              placeholder="Enter name"
+              isInvalid={!!errors.name}
             />
-            <Button
-              className={showPassword ? 'form-button' : 'outline-form-button'}
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </Button>
-          </div>
-          {errors.password && (
-            <div className="text-danger">{errors.password}</div>
-          )}
-        </Form.Group>
-      </div>
+            <Form.Control.Feedback type="invalid">
+              {errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
 
-      <div className="mt-2">
-        <Form.Group controlId="repeatPassword">
-          <Form.Label>Repeat Password</Form.Label>
-          <div className="input-group">
-            <Form.Control
-              type={showPassword ? 'text' : 'password'}
-              name="repeatPassword"
-              value={formData.repeatPassword}
-              onChange={handleChange}
-              placeholder="Repeat Password"
-              isInvalid={!!errors.repeatPassword}
-            />
-            <Button
-              className={showPassword ? 'form-button' : 'outline-form-button'}
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </Button>
-          </div>
-          {errors.repeatPassword && (
-            <div className="text-danger">{errors.repeatPassword}</div>
-          )}
-        </Form.Group>
-      </div>
+        <div className="mt-2">
+          <Form.Group controlId="password">
+            <Form.Label>Password</Form.Label>
+            <div className="input-group">
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Password"
+                isInvalid={!!errors.password}
+              />
+              <Button
+                className={showPassword ? 'form-button' : 'outline-form-button'}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </Button>
+            </div>
+            {errors.password && (
+              <div className="text-danger">{errors.password}</div>
+            )}
+          </Form.Group>
+        </div>
 
-      <div className="mt-3">
-        <Button className='form-button' type="submit">
-          Sign Up
-        </Button>
-      </div>
-    </Form>
+        <div className="mt-2">
+          <Form.Group controlId="repeatPassword">
+            <Form.Label>Repeat Password</Form.Label>
+            <div className="input-group">
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                name="repeatPassword"
+                value={formData.repeatPassword}
+                onChange={handleChange}
+                placeholder="Repeat Password"
+                isInvalid={!!errors.repeatPassword}
+              />
+              <Button
+                className={showPassword ? 'form-button' : 'outline-form-button'}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </Button>
+            </div>
+            {errors.repeatPassword && (
+              <div className="text-danger">{errors.repeatPassword}</div>
+            )}
+          </Form.Group>
+        </div>
+
+        <div className="mt-3">
+          <Button className='form-button' type="submit">
+            Sign Up
+          </Button>
+        </div>
+      </Form>
+
+      <Modal centered show={smShow} onHide={() => setSmShow(false)} >
+          <Modal.Header id='ModalHeader' className='footerProfile' closeButton>
+            <Modal.Title id="example-modal-sizes-title-sm">Sign Up</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className='modalProfile text-center'>{textModal}</Modal.Body>
+          <Modal.Footer className='modalProfile footerProfile'>
+          {showLoginButton ? (
+            <Button className='form-button-profile' onClick={() => navigate('/login')}>Login</Button>
+          ) : (<></>)}
+            <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
+          </Modal.Footer>
+      </Modal>
+    </div>
   );
 }
 
