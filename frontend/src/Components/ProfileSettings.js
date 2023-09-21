@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 function ProfileSettings() {
   const [buttonState, setButtonState] = useState(true)
   const [isModifyButton, setIsModifyButton] = useState(true)
+  const [showConfermButton, setShowConfermButton] = useState(true)
   const [deleteMyNews, setDeleteMyNews] = useState(false)
   const [smShow, setSmShow] = useState(false);
   const [typeChange, setTypeChange] = useState(null);
@@ -46,9 +47,11 @@ function ProfileSettings() {
     if (type === 0) {
       setTypeChange('Desideri confermare le modifiche al profilo?')
       setIsModifyButton(true)
+      setShowConfermButton(true)
     } else {
       setTypeChange('Confermi di voler cancellare il profilo?')
       setIsModifyButton(false)
+      setShowConfermButton(true)
     }
     setSmShow(true)
   })
@@ -115,15 +118,20 @@ function ProfileSettings() {
       });
 
       if (response.status === 200) {
-        response.json().then((data) => {
-          window.alert(data.message); 
-        });
         actions.logout();
         navigate('/login');
       } else if (response.status === 404) {
-        setSmShow(false);
+        setIsModifyButton(false);
+        setShowConfermButton(false)
+        setFormData({
+          ...formData,
+          email: '',
+          name: '',
+          password: '',
+          oldPassword: '',
+        });
         response.json().then((data) => {
-          window.alert(data.message); 
+          setTypeChange(data.message);
         });
         return;
       }
@@ -138,9 +146,8 @@ function ProfileSettings() {
     const result = fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) })
     .then(response => {
       if (response.status === 404){
-        // Reset the form fields
-        setSmShow(false);
         setIsModifyButton(false);
+        setShowConfermButton(false)
         setFormData({
           ...formData,
           email: '',
@@ -149,24 +156,23 @@ function ProfileSettings() {
           oldPassword: '',
         });
         response.json().then((data) => {
-          window.alert(data.message); // Assuming the error message is in the 'message' field
-          throw new Error(data.message);
+          setTypeChange(data.message)
         });
       }
       return response.json()
     }) 
     .then((data) => {
       if(!deleteMyNews){
-        setSmShow(false);
+        setTypeChange(data.message)
+        setShowConfermButton(false)
         window.location.reload();
-        window.alert(data.message);
       } else {
         const deleteNewsApiUrl = 'http://localhost:5000/news/' + sessionStorage.getItem('user_id') + '/all';
         const resultNews = fetch(deleteNewsApiUrl, { method: 'DELETE'})
         .then(response => {
           if (response.status === 404){
-            setSmShow(false);
             setIsModifyButton(false);
+            setShowConfermButton(false)
             setFormData({
               ...formData,
               email: '',
@@ -176,9 +182,9 @@ function ProfileSettings() {
             });
           }
           response.json().then(() => {
-            setSmShow(false);
+            setTypeChange(data.message)
+            setShowConfermButton(false)
             window.location.reload();
-            window.alert(data.message);
           });
         })
       }
@@ -252,12 +258,12 @@ function ProfileSettings() {
           </Modal.Header>
           <Modal.Body className='modalProfile text-center'>{typeChange}</Modal.Body>
           <Modal.Footer className='modalProfile footerProfile'>
-          {isModifyButton ? (
-            <Button name='Modifica' type='submit' className='form-button-profile'>Conferma</Button>
-          ) : (
-            <Button name='Elimina' type='submit' className='form-button-profile'>Conferma</Button>
-          )}
-            <Button className='form-button' onClick={() => setSmShow(false)}>Cancella</Button>
+            {isModifyButton && showConfermButton ? <Button name='Modifica' type='submit' className='form-button-profile'>Conferma</Button>
+            : !isModifyButton && showConfermButton ? <Button name='Elimina' type='submit' className='form-button-profile'>Conferma</Button>
+            : <></>}
+            {showConfermButton ? <Button className='form-button' onClick={() => setSmShow(false)}>Cancella</Button>
+            : <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
+            }
           </Modal.Footer>
         </Form>
       </Modal>

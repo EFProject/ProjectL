@@ -101,14 +101,14 @@ def update_user(user_id):
         # Retrieve the user instance using .one()
         user = User.query.filter_by(id=user_id).one()
         if not user:
-            return jsonify({"message": "user not found"}), 404
+            return jsonify({"message": "User not found"}), 404
         
         validPasswordHash = check_password_hash(user.password, old_password_plaintext)
         if not validPasswordHash:
-            return jsonify({"message": "current password is wrong"}), 404
+            return jsonify({"message": "Current password is wrong"}), 404
 
         if User.query.filter_by(email=new_email).first():
-            return jsonify({"message": "mail already exist!"}), 404
+            return jsonify({"message": "Mail already exist!"}), 404
         
         if new_email != '':
             user.email = new_email
@@ -118,7 +118,7 @@ def update_user(user_id):
             user.password = generate_password_hash(new_password, method='sha256')
 
         db.session.commit()
-        return jsonify({"message": "user updated successfully"})
+        return jsonify({"message": "User updated successfully"})
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
@@ -133,11 +133,11 @@ def delete_user(user_id):
 
         validPasswordHash = check_password_hash(user.password, old_password_plaintext)
         if not validPasswordHash:
-            return jsonify({"message": "current password is wrong"}), 404
+            return jsonify({"message": "Current password is wrong"}), 404
 
         db.session.delete(user)
         db.session.commit()
-        return jsonify({"message": "user deleted successfully"})
+        return jsonify({"message": "User deleted successfully"})
     except Exception as e:
         print("Exception:", e)  # Print the specific exception for debugging
         return jsonify({"message": "Something went wrong"}), 500
