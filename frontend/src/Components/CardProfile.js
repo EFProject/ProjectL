@@ -71,10 +71,10 @@ function CardProfile() {
 
     return (
         <Card className="mb-3" bg='dark' text='white'>
-        <Card.Header bg='dark' text='white'><h4>Dettagli Profilo</h4></Card.Header>
+        <Card.Header bg='dark' text='white'><h4>Profile Details</h4></Card.Header>
         <Card.Body bg='dark' text='white'><strong>Email:</strong> {userEmail}</Card.Body>
         <hr className="hr-card"></hr>
-        <Card.Body bg='dark' text='white'><strong>Nome:</strong> {userName}</Card.Body>
+        <Card.Body bg='dark' text='white'><strong>Name:</strong> {userName}</Card.Body>
         <hr className="hr-card"></hr>
         <Card.Body bg='dark' text='white'><strong>My News:</strong> {myNewsAmount}</Card.Body>
 		<hr className="hr-card"></hr>

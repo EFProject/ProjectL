@@ -4,9 +4,9 @@ import CardProfile from '../Components/CardProfile';
 
 function Profile() {
     return (
-        <div>
+        <div className="mt-3">
             <CardProfile></CardProfile>
-            <h2 className="mb-3">Modifica Profilo</h2>
+            <h2 className="mb-3">Edit Profile</h2>
             <ProfileSettings></ProfileSettings>
         </div>
     );

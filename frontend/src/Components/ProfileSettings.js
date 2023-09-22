@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
 import MyModal from './MyModal';
 
 function ProfileSettings() {
@@ -45,11 +46,11 @@ function ProfileSettings() {
 
   const handleModal = ((type) => {
     if (type === 0) {
-      setTypeChange('Desideri confermare le modifiche al profilo?')
+      setTypeChange('Would you like to confirm profile changes?')
       setIsModifyButton(true)
       setShowConfermButton(true)
     } else {
-      setTypeChange('Confermi di voler cancellare il profilo?')
+      setTypeChange('Do you confirm that you want to delete the profile?')
       setIsModifyButton(false)
       setShowConfermButton(true)
     }
@@ -130,6 +131,7 @@ function ProfileSettings() {
           password: '',
           oldPassword: '',
         });
+        setButtonState(true);
         response.json().then((data) => {
           setTypeChange(data.message);
         });
@@ -155,6 +157,7 @@ function ProfileSettings() {
           password: '',
           oldPassword: '',
         });
+        setButtonState(true);
         response.json().then((data) => {
           setTypeChange(data.message)
         });
@@ -180,6 +183,7 @@ function ProfileSettings() {
               password: '',
               oldPassword: '',
             });
+            setButtonState(true);
           }
           return data
         })
@@ -197,6 +201,7 @@ function ProfileSettings() {
                 password: '',
                 oldPassword: '',
               });
+              setButtonState(true);
             }
             response.json().then(() => {
               setTypeChange(data.message)
@@ -216,8 +221,8 @@ function ProfileSettings() {
     <div>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="NomeUtente">
-          <Form.Label>Nome utente</Form.Label>
-          <Form.Control value={formData.name} name="name" onChange={handleChange} className="w-80" type="text" placeholder="Nuovo Nome" isInvalid={!!errors.name}></Form.Control>
+          <Form.Label>User Name</Form.Label>
+          <Form.Control value={formData.name} name="name" onChange={handleChange} className="w-80" type="text" placeholder="New Nome" isInvalid={!!errors.name}></Form.Control>
           <Form.Control.Feedback type="invalid">
             {errors.name}
           </Form.Control.Feedback>
@@ -225,30 +230,30 @@ function ProfileSettings() {
 
         <Form.Group className="mb-3" controlId="Email">
           <Form.Label>Email address</Form.Label>
-          <Form.Control value={formData.email} name="email" onChange={handleChange} type="email" placeholder="Nuova Email" isInvalid={!!errors.email} /> 
+          <Form.Control value={formData.email} name="email" onChange={handleChange} type="email" placeholder="New Email" isInvalid={!!errors.email} /> 
           <Form.Control.Feedback type="invalid">
             {errors.email}
           </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="NuovaPassword">
-          <Form.Label>Nuova Password</Form.Label>
-          <Form.Control value={formData.password} name="password" onChange={handleChange} type="password" placeholder="Nuova Password" isInvalid={!!errors.password} />
+          <Form.Label>New Password</Form.Label>
+          <Form.Control value={formData.password} name="password" onChange={handleChange} type="password" placeholder="New Password" isInvalid={!!errors.password} />
           <Form.Control.Feedback type="invalid">
             {errors.password}
           </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="News">
-          <Form.Check onChange={handleSwitch} value={deleteMyNewsTickets} type="switch" id="switchNews" label="Elimina My News e My Tickets"/>
+          <Form.Check onChange={handleSwitch} value={deleteMyNewsTickets} type="switch" id="switchNews" label="Delete My News and My Tickets"/>
         </Form.Group>
 
         <hr className="hr-card"></hr>
         <Form.Group className="mb-3 mt-3" controlId="ConfermaPassword">
-          <Form.Label>Password corrente</Form.Label>
-          <Form.Control value={formData.oldPassword} name="oldPassword" onChange={handleChange} type="password" placeholder="Password corrente" onInput={handleButton}></Form.Control>
+          <Form.Label>Current Password</Form.Label>
+          <Form.Control value={formData.oldPassword} name="oldPassword" onChange={handleChange} type="password" placeholder="Current Password" onInput={handleButton}></Form.Control>
           <Form.Text className="text-danger">
-            Per confermare le modifiche, inserisci la password corrente.
+            To confirm changes, enter the current password.
           </Form.Text>
         </Form.Group>
 
@@ -256,41 +261,24 @@ function ProfileSettings() {
           <Row>
             <Col>
               <Button className='form-button-profile' disabled={buttonState} onClick={() => handleModal(0)}>
-                Conferma
+                Confirm
               </Button>
             </Col>
             <Col></Col>
             <Col>
               <Button className='form-button' disabled={buttonState} onClick={() => handleModal(1)}>
-                Elimina
+                Delete
               </Button>
             </Col>
           </Row>
         </Container>
       </Form>
 
-      {smShow ? ((isModifyButton && showConfermButton)||(!isModifyButton && showConfermButton)) ? 
-        <MyModal setShowModal={setSmShow} text={typeChange} title={"Edit Profile"} showConfirmButton={true} confirmFunction={()=>setSmShow(false)}></MyModal>
-        : <MyModal setShowModal={setSmShow} text={typeChange} title={"Edit Profile"}></MyModal> : <></>}
-    </div>
-
-    // Modal centered show={smShow} onHide={() => setSmShow(false)} >
-    //     <Form onSubmit={handleSubmit}>
-    //       <Modal.Header id='ModalHeader' className='footerProfile' closeButton>
-    //         <Modal.Title id="example-modal-sizes-title-sm">Modifica Profilo</Modal.Title>
-    //       </Modal.Header>
-    //       <Modal.Body className='modalProfile text-center'>{typeChange}</Modal.Body>
-    //       <Modal.Footer className='modalProfile footerProfile'>
-    //         {isModifyButton && showConfermButton ? <Button name='Modifica' type='submit' className='form-button-profile'>Conferma</Button>
-    //         : !isModifyButton && showConfermButton ? <Button name='Elimina' type='submit' className='form-button-profile'>Conferma</Button>
-    //         : <></>}
-    //         {showConfermButton ? <Button className='form-button' onClick={() => setSmShow(false)}>Cancella</Button>
-    //         : <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
-    //         }
-    //       </Modal.Footer>
-    //     </Form>
-    //   </Modal>
-
+        {smShow ? ((isModifyButton && showConfermButton)||(!isModifyButton && showConfermButton)) ? 
+        <MyModal setShowModal={setSmShow} text={typeChange} title={"Edit Profile"} showConfirmButton={true} confirmFunction={handleSubmit}></MyModal>
+        : <MyModal setShowModal={setSmShow} text={typeChange} title={"Edit Profile"} confirmFunction={handleSubmit}></MyModal> : <></>}
+  
+      </div>
   );
 }
 
