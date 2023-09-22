@@ -106,8 +106,9 @@ function Tickets() {
 				});
 
 		} else if (selectedTab === 'myCollection' || collected) {
-		
+
 			const deleteNewsApiUrl = 'http://localhost:5002/tickets/' + item.id;
+
 			fetch(deleteNewsApiUrl, {
 				method: 'DELETE',
 				headers: {
@@ -171,7 +172,7 @@ function Tickets() {
 				<>
 					{collection && collection.length > 0 ? (
 						<>
-							<MyCollection initialCollection={collection} onAddToCollection={onAddToCollection}/>
+							<MyCollection collection={collection} onAddToCollection={onAddToCollection}/>
 						</>
 					) : (
 						<Container className="mt-4"><h4>No tickets in your collection, go to 'Ticket Store'</h4></Container>

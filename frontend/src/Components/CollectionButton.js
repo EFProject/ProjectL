@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap';
-import Modal from './Modal';
+import MyModal from './MyModal';
 
 const CollectionButton = ({ item, isCollected, onToggle }) => {
 
@@ -31,7 +31,7 @@ const CollectionButton = ({ item, isCollected, onToggle }) => {
             >
                 More Info
         </Button>
-        {showModal ? <Modal setShowModal={setShowModal} text={item.info} title={item.name}></Modal> : <></>}</>
+        {showModal ? <MyModal setShowModal={setShowModal} text={item.info} title={item.name}></MyModal> : <></>}</>
         : <></>}
         </>
     );

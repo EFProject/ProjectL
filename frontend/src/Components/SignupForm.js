@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
+import MyModal from './MyModal';
 
 function SignupForm() {
   const navigate = useNavigate();
@@ -219,18 +219,9 @@ function SignupForm() {
         </div>
       </Form>
 
-      <Modal centered show={smShow} onHide={() => setSmShow(false)} >
-          <Modal.Header id='ModalHeader' className='footerProfile' closeButton>
-            <Modal.Title id="example-modal-sizes-title-sm">Sign Up</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className='modalProfile text-center'>{textModal}</Modal.Body>
-          <Modal.Footer className='modalProfile footerProfile'>
-          {showLoginButton ? (
-            <Button className='form-button-profile' onClick={() => navigate('/login')}>Login</Button>
-          ) : (<></>)}
-            <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
-          </Modal.Footer>
-      </Modal>
+      {smShow ? showLoginButton ? <MyModal setShowModal={setSmShow} text={textModal} title={"Sign Up"} flagCloseFunction={true} closeFunction={() => navigate('/login')}></MyModal>
+      : <MyModal setShowModal={setSmShow} text={textModal} title={"Sign Up"}></MyModal> : <></>}
+
     </div>
   );
 }

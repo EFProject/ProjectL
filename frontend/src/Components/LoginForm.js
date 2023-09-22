@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../Store/appContext';
-import Modal from 'react-bootstrap/Modal';
+import MyModal from './MyModal';
 
 function LoginForm() {
   const { actions } = useContext(Context);
@@ -133,15 +133,25 @@ function LoginForm() {
         </div>
       </Form>
 
-      <Modal centered show={smShow} onHide={() => setSmShow(false)} >
+      {smShow ? <MyModal setShowModal={setSmShow} text={"Wrong email or password!"} title={"Login"} confirmFunction={() => {}}></MyModal> : <></>}
+
+      {/* Modal centered show={smShow} onHide={() => setSmShow(false)} >
+        <Form onSubmit={handleSubmit}>
           <Modal.Header id='ModalHeader' className='footerProfile' closeButton>
-            <Modal.Title id="example-modal-sizes-title-sm">Login</Modal.Title>
+            <Modal.Title id="example-modal-sizes-title-sm">Modifica Profilo</Modal.Title>
           </Modal.Header>
-          <Modal.Body className='modalProfile text-center'>Wrong email or password!</Modal.Body>
+          <Modal.Body className='modalProfile text-center'>{typeChange}</Modal.Body>
           <Modal.Footer className='modalProfile footerProfile'>
-            <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
+            {isModifyButton && showConfermButton ? <Button name='Modifica' type='submit' className='form-button-profile'>Conferma</Button>
+            : !isModifyButton && showConfermButton ? <Button name='Elimina' type='submit' className='form-button-profile'>Conferma</Button>
+            : <></>}
+            {showConfermButton ? <Button className='form-button' onClick={() => setSmShow(false)}>Cancella</Button>
+            : <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
+            }
           </Modal.Footer>
-      </Modal>        
+        </Form>
+      </Modal> */}
+
     </div>
   );
 }

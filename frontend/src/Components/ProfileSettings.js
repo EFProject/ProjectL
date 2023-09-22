@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
+import MyModal from './MyModal';
 
 function ProfileSettings() {
   const [buttonState, setButtonState] = useState(true)
@@ -269,23 +269,27 @@ function ProfileSettings() {
         </Container>
       </Form>
 
-      <Modal centered show={smShow} onHide={() => setSmShow(false)} >
-        <Form onSubmit={handleSubmit}>
-          <Modal.Header id='ModalHeader' className='footerProfile' closeButton>
-            <Modal.Title id="example-modal-sizes-title-sm">Modifica Profilo</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className='modalProfile text-center'>{typeChange}</Modal.Body>
-          <Modal.Footer className='modalProfile footerProfile'>
-            {isModifyButton && showConfermButton ? <Button name='Modifica' type='submit' className='form-button-profile'>Conferma</Button>
-            : !isModifyButton && showConfermButton ? <Button name='Elimina' type='submit' className='form-button-profile'>Conferma</Button>
-            : <></>}
-            {showConfermButton ? <Button className='form-button' onClick={() => setSmShow(false)}>Cancella</Button>
-            : <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
-            }
-          </Modal.Footer>
-        </Form>
-      </Modal>
+      {smShow ? ((isModifyButton && showConfermButton)||(!isModifyButton && showConfermButton)) ? 
+        <MyModal setShowModal={setSmShow} text={typeChange} title={"Edit Profile"} showConfirmButton={true} confirmFunction={()=>setSmShow(false)}></MyModal>
+        : <MyModal setShowModal={setSmShow} text={typeChange} title={"Edit Profile"}></MyModal> : <></>}
     </div>
+
+    // Modal centered show={smShow} onHide={() => setSmShow(false)} >
+    //     <Form onSubmit={handleSubmit}>
+    //       <Modal.Header id='ModalHeader' className='footerProfile' closeButton>
+    //         <Modal.Title id="example-modal-sizes-title-sm">Modifica Profilo</Modal.Title>
+    //       </Modal.Header>
+    //       <Modal.Body className='modalProfile text-center'>{typeChange}</Modal.Body>
+    //       <Modal.Footer className='modalProfile footerProfile'>
+    //         {isModifyButton && showConfermButton ? <Button name='Modifica' type='submit' className='form-button-profile'>Conferma</Button>
+    //         : !isModifyButton && showConfermButton ? <Button name='Elimina' type='submit' className='form-button-profile'>Conferma</Button>
+    //         : <></>}
+    //         {showConfermButton ? <Button className='form-button' onClick={() => setSmShow(false)}>Cancella</Button>
+    //         : <Button className='form-button' onClick={() => setSmShow(false)}>Chiudi</Button>
+    //         }
+    //       </Modal.Footer>
+    //     </Form>
+    //   </Modal>
 
   );
 }

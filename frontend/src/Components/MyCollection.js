@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import CollectionButton from './CollectionButton';
 
-const MyCollection = ({ initialCollection, onAddToCollection }) => {
-    const [collection, setCollection] = useState(initialCollection);
-
-    useEffect(() => {
-        setCollection(initialCollection);
-    }, [initialCollection]);
+const MyCollection = ({ collection, onAddToCollection }) => {
 
     const toggleCollected = (index) => {
         onAddToCollection(collection[index], true);

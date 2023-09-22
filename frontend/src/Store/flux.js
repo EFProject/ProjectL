@@ -28,7 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						sessionStorage.setItem("email", responseData.email);
 						sessionStorage.setItem("name", responseData.name);
 						setStore({ token: accessToken })
-						window.alert("Bentornato " + responseData.name + "!")
+						window.alert("Welcome Back " + responseData.name + "!")
 						return true;
 					} else if (response.status === 404) {
 						return false;

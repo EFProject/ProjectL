@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import CollectionButton from './CollectionButton';
 
-const TicketList = ({ data, collection: initialCollection, onAddToCollection }) => {
-
-  const [collection, setCollection] = useState(initialCollection);
+const TicketList = ({ data, collection, onAddToCollection }) => {
 
   const toggleCollection = (index) => {
-    const isCollected = collection.some((coll) => coll.name === data[index].name);
-    const item = data[index];
+    const isCollected = collection.some((coll) => coll.name === data[index].name && coll.localDate === data[index].localDate);
+    var item;
     
     if (isCollected) {
-      const uncollected = collection.find((coll) => coll.name === item.name);
-      setCollection(collection.filter((coll) => coll.name !== item.name));
-      
-      onAddToCollection(uncollected, true);
+      item = collection.find((coll) => coll.name === data[index].name && coll.localDate === data[index].localDate)
+      onAddToCollection(item , true);
     } else {
-      const newItem = { name: item.name, info: item.info, urlToImage: item.urlToImage, localDate: item.localDate, promoter: item.promoter, user_id: sessionStorage.getItem('user_id'), url: item.url };
-
-      setCollection([...collection, item]);
-
-      onAddToCollection(newItem, false);
+      item = data[index];
+      item = {...item , user_id: sessionStorage.getItem('user_id')};
+      onAddToCollection(item, false);
     }
+
   };
 
   return (
@@ -32,7 +27,7 @@ const TicketList = ({ data, collection: initialCollection, onAddToCollection }) 
         <Row>
           {data.map((item, index) => {
 
-            const isCollected = collection.some((collected) => collected.name === item.name);
+            const isCollected = collection.some((coll) => coll.name === item.name && coll.localDate === item.localDate);
 
             const handleImageError = (e) => {
               e.target.src = '/default.jpg';
