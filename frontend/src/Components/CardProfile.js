@@ -5,6 +5,7 @@ function CardProfile() {
     const [userEmail, setUserEmail] = useState(null);
     const [userName, setUserName] = useState(null);
     const [myNewsAmount, setMyNewsAmount] = useState(0)
+    const [myTicketsAmount, setMyTicketsAmount] = useState(0)
 
     function fetchFavorites() {
 		const favoritesApiUrl = 'http://localhost:5000/news/' + sessionStorage.getItem('user_id');
@@ -18,6 +19,24 @@ function CardProfile() {
 			})
 			.then((favoritesData) => {
 				setMyNewsAmount(favoritesData.news.length);
+			})
+			.catch((error) => {
+				console.error('Error fetching favorites:', error);
+			});
+	};
+
+	function fetchTickets() {
+		const ticketsApiUrl = 'http://localhost:5002/tickets/' + sessionStorage.getItem('user_id');
+		fetch(ticketsApiUrl)
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				} else {
+					throw new Error('Failed to fetch favorites');
+				}
+			})
+			.then((ticketsData) => {
+				setMyTicketsAmount(ticketsData.tickets.length);
 			})
 			.catch((error) => {
 				console.error('Error fetching favorites:', error);
@@ -46,6 +65,7 @@ function CardProfile() {
     useEffect(() => {
 		fetchUserInfo()
         fetchFavorites()
+		fetchTickets()
 	}, []);
 
 
@@ -57,6 +77,8 @@ function CardProfile() {
         <Card.Body bg='dark' text='white'><strong>Nome:</strong> {userName}</Card.Body>
         <hr className="hr-card"></hr>
         <Card.Body bg='dark' text='white'><strong>My News:</strong> {myNewsAmount}</Card.Body>
+		<hr className="hr-card"></hr>
+        <Card.Body bg='dark' text='white'><strong>My Tickets:</strong> {myTicketsAmount}</Card.Body>
         </Card>
     );
 }

@@ -12,7 +12,7 @@ function ProfileSettings() {
   const [buttonState, setButtonState] = useState(true)
   const [isModifyButton, setIsModifyButton] = useState(true)
   const [showConfermButton, setShowConfermButton] = useState(true)
-  const [deleteMyNews, setDeleteMyNews] = useState(false)
+  const [deleteMyNewsTickets, setDeleteMyNewsTickets] = useState(false)
   const [smShow, setSmShow] = useState(false);
   const [typeChange, setTypeChange] = useState(null);
   const [errors, setErrors] = useState({});
@@ -40,7 +40,7 @@ function ProfileSettings() {
   })
 
   const handleSwitch = (()=> {
-    setDeleteMyNews(!deleteMyNews)
+    setDeleteMyNewsTickets(!deleteMyNewsTickets)
   })
 
   const handleModal = ((type) => {
@@ -71,7 +71,7 @@ function ProfileSettings() {
       formData.email.trim() === '' &&
       formData.name.trim() === '' &&
       formData.password.trim() === '' &&
-      !deleteMyNews
+      !deleteMyNewsTickets
     ) {
       setErrors({
         email: !formData.email ? 'You must fill at least one field' : '',
@@ -162,7 +162,7 @@ function ProfileSettings() {
       return response.json()
     }) 
     .then((data) => {
-      if(!deleteMyNews){
+      if(!deleteMyNewsTickets){
         setTypeChange(data.message)
         setShowConfermButton(false)
         window.location.reload();
@@ -181,11 +181,29 @@ function ProfileSettings() {
               oldPassword: '',
             });
           }
-          response.json().then(() => {
-            setTypeChange(data.message)
-            setShowConfermButton(false)
-            window.location.reload();
-          });
+          return data
+        })
+        .then((data) => {
+          const deleteTicketsApiUrl = 'http://localhost:5002/tickets/' + sessionStorage.getItem('user_id') + '/all';
+          const resultTickets = fetch(deleteTicketsApiUrl, { method: 'DELETE'})
+          .then(response => {
+            if (response.status === 404){
+              setIsModifyButton(false);
+              setShowConfermButton(false)
+              setFormData({
+                ...formData,
+                email: '',
+                name: '',
+                password: '',
+                oldPassword: '',
+              });
+            }
+            response.json().then(() => {
+              setTypeChange(data.message)
+              setShowConfermButton(false)
+              window.location.reload();
+            });
+          })
         })
       }
     })
@@ -222,7 +240,7 @@ function ProfileSettings() {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="News">
-          <Form.Check onChange={handleSwitch} value={deleteMyNews} type="switch" id="switchNews" label="Elimina My News"/>
+          <Form.Check onChange={handleSwitch} value={deleteMyNewsTickets} type="switch" id="switchNews" label="Elimina My News e My Tickets"/>
         </Form.Group>
 
         <hr className="hr-card"></hr>
