@@ -56,5 +56,16 @@ services:
     depends_on:
       - postgres
 
+  friends: 
+    build: ./friends
+    ports:
+    - "5003:5003" 
+    volumes:
+    - ./friends:/friends
+    environment:
+      - DB_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/postgres
+    depends_on:
+      - postgres
+
 volumes:
  pgdata: {}

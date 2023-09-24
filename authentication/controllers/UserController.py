@@ -92,6 +92,19 @@ def get_user(user_id):
         return 'No User ' + str(user_id) + ' exists', 404
 
 
+def get_user_by_email(email):
+    try:
+        user = User.query.filter_by(email=email).first()
+        if user:
+            formatted_user = user.serialize
+            return {'user': formatted_user}, 200
+        else:
+            return 'No user found', 400
+    except Exception as e:
+        print("Exception:", e)  # Print the specific exception for debugging
+        return 'No User ' + str(email) + ' exists', 404
+
+
 def update_user(user_id):
     new_email = request.json['email']
     new_name = request.json['name']
@@ -102,20 +115,22 @@ def update_user(user_id):
         user = User.query.filter_by(id=user_id).one()
         if not user:
             return jsonify({"message": "User not found"}), 404
-        
-        validPasswordHash = check_password_hash(user.password, old_password_plaintext)
+
+        validPasswordHash = check_password_hash(
+            user.password, old_password_plaintext)
         if not validPasswordHash:
             return jsonify({"message": "Current password is wrong"}), 404
 
         if User.query.filter_by(email=new_email).first():
             return jsonify({"message": "Mail already exist!"}), 404
-        
+
         if new_email != '':
             user.email = new_email
         if new_name != '':
             user.name = new_name
         if new_password != '':
-            user.password = generate_password_hash(new_password, method='sha256')
+            user.password = generate_password_hash(
+                new_password, method='sha256')
 
         db.session.commit()
         return jsonify({"message": "User updated successfully"})
@@ -131,7 +146,8 @@ def delete_user(user_id):
     try:
         user = User.query.filter_by(id=user_id).one()
 
-        validPasswordHash = check_password_hash(user.password, old_password_plaintext)
+        validPasswordHash = check_password_hash(
+            user.password, old_password_plaintext)
         if not validPasswordHash:
             return jsonify({"message": "Current password is wrong"}), 404
 

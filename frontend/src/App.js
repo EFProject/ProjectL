@@ -14,6 +14,7 @@ import Signup from './Pages/Signup';
 import NavBar from './Components/NavBar';
 import Profile from './Pages/Profile';
 import Tickets from './Pages/Tickets';
+import Friends from './Pages/Friends';
 import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import injectContext, { Context } from './Store/appContext';
@@ -61,6 +62,7 @@ function App() {
 						<Route path="/" element={store.token ? <Home /> : <Login />} />
 						<Route path="/profile" element={store.token ? <Profile /> : <Login />} />
 						<Route path="/tickets" element={store.token ? <Tickets /> : <Login />} />
+						<Route path="/friends" element={store.token ? <Friends /> : <Login />} />
 						{!store.token ?
 							<>
 								<Route path="/Login" element={<Login />} />

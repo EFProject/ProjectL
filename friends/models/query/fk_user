@@ -1,0 +1,10 @@
+-- add foreign key on user table
+
+ALTER TABLE friends ADD CONSTRAINT news_user_id_fk
+FOREIGN KEY (user_id) REFERENCES "user" (id) ON
+DELETE CASCADE;
+
+
+ALTER TABLE friends ADD CONSTRAINT news_friend_id_fk
+FOREIGN KEY (friend_id) REFERENCES "user" (id) ON
+DELETE CASCADE;

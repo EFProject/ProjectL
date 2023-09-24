@@ -59,6 +59,12 @@ function NavBar() {
                 className={`active-link ${window.location.pathname === '/tickets' ? 'selected' : ''}`}>
                 Tickets
               </Nav.Link>
+              <Nav.Link
+                as={NavLink}
+                to="/friends"
+                className={`active-link ${window.location.pathname === '/friends' ? 'selected' : ''}`}>
+                Friends
+              </Nav.Link>
               <Nav.Link onClick={handleLogout} className="active-link">
                 Logout
               </Nav.Link>
