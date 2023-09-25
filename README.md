@@ -87,22 +87,22 @@ Returns all the users of the application.
 
 - GET /users/[user_id]
 
-Returns the user with ID=[user_id].
+   Returns the user with ID=[user_id].
 
 > Example: <authentication_service_url>/user/1
 > Gets the user with ID=1
 
 - GET /users/get_by_email/[email]
 
-Return the user with the email=[email].
+   Return the user with the email=[email].
 
 - GET /users/checkToken
-
-Check if the current user has a valid token, or it is expired.
+   
+   Check if the current user has a valid token, or it is expired.
 
 - POST /users/login
 
-Handle the login for the current user, generating as response a token.
+   Handle the login for the current user, generating as response a token.
 
 Format of json body:
 {
@@ -124,48 +124,48 @@ Format of json body:
 
 - POST /users/logout
 
-Remove the token for the logged user, and execute the logout from current session, return a confirmation message.
-
-Format of json body:
-{
-"user_id": 4
-}
+   Remove the token for the logged user, and execute the logout from current session, return a confirmation message.
+   
+   Format of json body:
+   {
+   "user_id": 4
+   }
 
 - PUT /users/[user_id]/edit
 
 Update the information of user with ID=[user_id], and return the json of the updated user.
 
-Format of json body:
-{
-"email": "massimo.mecella@diag.it",
-"name": "Massimo",
-"password": "Laboratorio2023%"
-}
+   Format of json body:
+   {
+   "email": "massimo.mecella@diag.it",
+   "name": "Massimo",
+   "password": "Laboratorio2023%"
+   }
 
 - DELETE /users/[user_id]
 
-Delete the user with ID=[user_id].
+   Delete the user with ID=[user_id].
 
 ## 📰 News api documentation
 
 - GET /news/
 
-Returns all latest sports news, using an external API, can be applied filters:
-
-- country: The country code where news is to be searched.
-- q: A keyword that the news must contain.
-- pageSize: The number of results per page.
-- page: The desired number of pages for result delivery.
-
-> Example: <news_service_url>/news/?country=IT&pageSize=20&page=4&q=Roma
-> Gets all the latest news related to Roma, from Italian sources.
+   Returns all latest sports news, using an external API, can be applied filters:
+   
+   - country: The country code where news is to be searched.
+   - q: A keyword that the news must contain.
+   - pageSize: The number of results per page.
+   - page: The desired number of pages for result delivery.
+   
+   > Example: <news_service_url>/news/?country=IT&pageSize=20&page=4&q=Roma
+   > Gets all the latest news related to Roma, from Italian sources.
 
 - GET /news/[user_id]
 
-Returns all news saved by user with ID=[user_id].
+   Returns all news saved by user with ID=[user_id].
 
-> Example: <news_service_url>/news/1
-> Gets all the saved news by user with ID=1
+   > Example: <news_service_url>/news/1
+   > Gets all the saved news by user with ID=1
 
 - POST /news/create
 
@@ -183,32 +183,32 @@ Returns all news saved by user with ID=[user_id].
 
 - DELETE /news/[news_id]
 
-Deletes the news with ID=[news_id].
+   Deletes the news with ID=[news_id].
 
 - DELETE /news/[user_id]/all
 
-Deletes all the news saved by user with ID=[user_id].
+   Deletes all the news saved by user with ID=[user_id].
 
 ## 🎫 Tickets api documentation
 
 - GET /tickets/
 
-Returns all tickets for upcoming events, using an external API, can be applied filters:
-
-- countryCode: The country code where tickets are to be searched.
-- keyword: A word related to the desired event.
-- size: the size of results.
-- page: The desired number of pages for result delivery.
-
-> Example: <tickets_service_url>/tickets/?countryCode=US&size=100&page=4
-> Gets all the upcoming events in US, maximum 100 reuslts in 4 pages.
+   Returns all tickets for upcoming events, using an external API, can be applied filters:
+   
+   - countryCode: The country code where tickets are to be searched.
+   - keyword: A word related to the desired event.
+   - size: the size of results.
+   - page: The desired number of pages for result delivery.
+   
+   > Example: <tickets_service_url>/tickets/?countryCode=US&size=100&page=4
+   > Gets all the upcoming events in US, maximum 100 reuslts in 4 pages.
 
 - GET /tickets/[user_id]
 
-Returns all tickets collected by user with ID=[user_id].
-
-> Example: <tickets_service_url>/tickets/1
-> Gets all the collected tickets by user with ID=1
+   Returns all tickets collected by user with ID=[user_id].
+   
+   > Example: <tickets_service_url>/tickets/1
+   > Gets all the collected tickets by user with ID=1
 
 - POST /tickets/collect
 
@@ -227,27 +227,27 @@ Returns all tickets collected by user with ID=[user_id].
 
 - DELETE /tickets/[ticket_id]/cancel_friend
 
-Deletes the ticket with ID=[ticket_id].
+   Deletes the ticket with ID=[ticket_id].
 
 - DELETE /tickets/[user_id]/all
 
-Deletes all the tickets collected by user with ID=[user_id].
+   Deletes all the tickets collected by user with ID=[user_id].
 
 ## 👥 Friends api documentation
 
 - GET /friends/[user_id]
 
-Returns all friend of the user associeted to [user_id].
-
-> Example: <friend_service_url>/friends/1
-> Gets all the friends of user with ID=1
+   Returns all friend of the user associeted to [user_id].
+   
+   > Example: <friend_service_url>/friends/1
+   > Gets all the friends of user with ID=1
 
 - GET /friends/requests/[friend_id]
 
-Returns all requests recieved by the user associeted to [friend_id].
-
-> Example: <friend_service_url>/friends/requests/1
-> Gets all the requests recieved by user with ID=1
+   Returns all requests recieved by the user associeted to [friend_id].
+   
+   > Example: <friend_service_url>/friends/requests/1
+   > Gets all the requests recieved by user with ID=1
 
 - POST /friends/create_request
 
@@ -261,12 +261,12 @@ Returns all requests recieved by the user associeted to [friend_id].
 
 - PUT /friends/[int:request_id]/accept_request
 
-Update the request with ID=request_id, changing status to 'accepted'.
+   Update the request with ID=request_id, changing status to 'accepted'.
 
 - DELETE /friends/[friend_id]/cancel_friend
 
-Deletes friendship with given id.
+   Deletes friendship with given id.
 
 - DELETE /friends/[request_id]/delete_request
 
-Deletes request of friendship with given id.
+   Deletes request of friendship with given id.
