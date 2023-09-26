@@ -279,3 +279,8 @@ Update the information of user with ID=[user_id], and return the json of the upd
 - DELETE /friends/[request_id]/delete_request
 
    Deletes request of friendship with given id.
+
+# 📑 Entity Relationship scheme
+<div>
+   <img src="Documentation/ER.png" width=60% style="display:inline-block; margin-right: 2%;"/>
+</div>
