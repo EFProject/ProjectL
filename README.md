@@ -58,7 +58,7 @@ There are basically four entities in the system:
 # 🏬 Architecture
 
 <div>
-   <img src="images/architecture.png" width=60% style="display:inline-block; margin-right: 2%;"/>
+   <img src="Documentation/architecture.jpg" width=60% style="display:inline-block; margin-right: 2%;"/>
 </div>
 
 ## 🔐 DB Structure
