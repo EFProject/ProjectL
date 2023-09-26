@@ -22,17 +22,29 @@ OneSport is dedicated to offering up-to-date and pertinent information on a wide
 
 # 👤 User Stories
 
-#TODO - FRANCESCO
+As a Visitor:
 
-EXAMPLE:
+1. I want to be able to signup in order to have an account 
+2. I want to be able to login
 
-1. I want to see my current shopping cart
-2. I want to order the products for ascending/descending price
+As a User:
 
-As a Merchant:
-
-1. I want to insert/remove products
-2. I want to change the price of a product
+1. I want to logout from the account by clicking on the Navbar
+2. I want to be able to have access to my profile settings
+3. I want to be able to delete my account by clicking on a button from the profile settings page
+4. I want to be able to modify my email and password in order to change my credentials
+5. I want to see all recent news
+6. I want to filter Italian news by selecting from the menu of available countries 
+7. I want to add to my favourite news all the news I'm interested in, in order to read them later
+8. I want to delete from my favourite news all the news that I'm no longer interested 
+9. I want to see available tickets for upcoming sporting events
+10. I want to filter Italian tickets by selecting from the menu of available countries 
+11. I want to add to my collection all the tickets I'm interested in, in order to purchase them later
+12. I want to delete from my collection all the tickets that I'm no longer interested 
+13. I want to be able to delete all the news and tickets in my favourite list
+14. I want to send a friend request to another user, in order to add him to my friend list
+15. I want to check if someone has sent me a friend request, in order to accept or delete it
+16. I want to delete a friend from my friend list
 
 # 🆔 Entities
 
