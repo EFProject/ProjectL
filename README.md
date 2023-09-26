@@ -77,7 +77,7 @@ There are basically four entities in the system:
 | --- | --- | --- | --- | --- |
 
 **_news_**:
-| **_id_** | title | author | urlToImage | urlToImage | user_id | url |
+| **_id_** | title | author | urlToImage | published_at | user_id | url |
 | --- | --- | --- | --- | --- | --- | --- |
 
 **_tickets_**:
