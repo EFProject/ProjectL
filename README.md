@@ -39,9 +39,10 @@ As a User:
 13. I want to add to my collection all the tickets I'm interested in, in order to purchase them later
 14. I want to delete from my collection all the tickets that I'm no longer interested 
 15. I want to be able to delete all the news and tickets in my favourite list
-16. I want to send a friend request to another user, in order to add him to my friend list
-17. I want to check if someone has sent me a friend request, in order to accept or delete it
-18. I want to delete a friend from my friend list
+16. I want to see all my friends
+17. I want to send a friend request to another user, in order to add him to my friend list
+18. I want to check if someone has sent me a friend request, in order to accept or delete it
+19. I want to delete a friend from my friend list
 
 # 🆔 Entities
 
