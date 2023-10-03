@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
 import MyModal from './MyModal';
 
 function ProfileSettings() {
@@ -145,7 +144,7 @@ function ProfileSettings() {
     }
 
     const url = 'http://localhost:5001/users/' + sessionStorage.getItem('user_id') + '/edit';
-    const result = fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) })
+    fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) })
     .then(response => {
       if (response.status === 404){
         setIsModifyButton(false);
@@ -171,7 +170,7 @@ function ProfileSettings() {
         window.location.reload();
       } else {
         const deleteNewsApiUrl = 'http://localhost:5000/news/' + sessionStorage.getItem('user_id') + '/all';
-        const resultNews = fetch(deleteNewsApiUrl, { method: 'DELETE'})
+        fetch(deleteNewsApiUrl, { method: 'DELETE'})
         .then(response => {
           if (response.status === 404){
             setIsModifyButton(false);
@@ -189,7 +188,7 @@ function ProfileSettings() {
         })
         .then((data) => {
           const deleteTicketsApiUrl = 'http://localhost:5002/tickets/' + sessionStorage.getItem('user_id') + '/all';
-          const resultTickets = fetch(deleteTicketsApiUrl, { method: 'DELETE'})
+          fetch(deleteTicketsApiUrl, { method: 'DELETE'})
           .then(response => {
             if (response.status === 404){
               setIsModifyButton(false);
