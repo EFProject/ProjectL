@@ -58,7 +58,7 @@ function SignupForm() {
     }
 
     // Check password complexity
-    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*)(:;._'-]).{8,}$/;
     if (!passwordRegex.test(formData.password)) {
       setErrors({
         ...errors,
